@@ -45,6 +45,9 @@ docs-liveserver = "sphinx-autobuild docs/source/ docs/build/html --open-browser 
 docs-build = "sphinx-build -b html docs/source/ docs/build/html"
 docs-serve= "python -m http.server 8000 --directory ./docs/build/html"
 
+# Full Code Quality Check (This is mostly used in things like pre-commit hooks, CI, Etc..)
+full-code-quality-check =  "task lint-all && task test && task docs-build"
+
 # Docker
 docker-development = "docker-compose -f docker-compose.yml -f docker-compose.development.yml up --remove-orphans"
 docker-development-stop = "docker-compose -f docker-compose.yml -f docker-compose.development.yml down -v"
@@ -53,17 +56,13 @@ docker-development-shell = "docker-compose -f docker-compose.yml -f docker-compo
 docker-production = "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans"
 docker-production-build = "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans --build"
 
-# Pre-Commit Hooks Related
-precommit-install = "poetry run pre-commit install"
-precommit-runinall = "poetry run pre-commit run --all-files"
-
 # Database Migrations
 db-migrate-init = "flask db init -d ./database/migrations"
 db-migrate-genMigrations = "flask db migrate -d ./database/migrations" # If Schema changed, Run this.
 db-migrate-apply = "flask db upgrade -d ./database/migrations" # If Schema changed OR It's initial db setup, Run this.
 
 # Initial Setup
-initial-setup = "poetry install && npm install && task precommit-install && task db-migrate-apply && cd ./scripts/nodejsRunner && npm install"
+initial-setup = "poetry install && npm install && task db-migrate-apply && cd ./scripts/nodejsRunner && npm install"
 
 [tool.poetry.dependencies]
 python = "^3.9"

@@ -22,7 +22,7 @@ poetry run task docker-production
 
 -   Make sure necessary service are running on relevant ports. (For Ex. Database Server)
 
--   Run below initial script to setup necessary things. (Like installing Python dependencies, Node dependencies, PreCommit Hooks, DBMigrations, Etc..)
+-   Run below initial script to setup necessary things. (Like installing Python dependencies, Node Dependencies, DBMigrations, Etc..)
 
 ```bash
 poetry run task initial-setup

@@ -3,65 +3,16 @@ fail_fast: true # Used to stop pre-commit, running below steps when one is faile
 repos:
     - repo: local
       hooks:
-          #  ----------- Linting -----------
+          #  ----------- Code Quality Checking for Each Sub Project -----------
+          #  ----------- (Lint, Type Checking, Test, Docs Gen, Etc...) -----------
 
-          - id: isort
-            name: ISort
-            entry: isort
+          - id: apps/backend-main
+            name: Code Quality Check for "apps/backend-main" Project
+            entry: poetry run task code-quality--backend-main
             language: system
-            types: [python]
-
-          - id: black
-            name: Black
-            entry: black
-            language: system
-            types: [python]
-            require_serial: true
-
-          - id: flake8
-            name: Flake8
-            entry: flake8
-            language: system
-            types: [python]
-            require_serial: true
-
-          - id: mypy
-            name: MyPy Type Checking
-            entry: mypy
-            language: system
-            types: [python]
-
-          - id: safety
-            name: Checking Third Party Package Safety
-            entry: safety check
-            language: system
-            types: [python]
             pass_filenames: false
-
-          #  ----------- Testing -----------
-
-          - id: pytest
-            name: Running Tests
-            language: system
-            entry: pytest
-            types: [python]
-            pass_filenames: false
-
-          - id: pytest-cov
-            name: Testing Coverage
-            entry: poetry run task test-coverage
-            language: system
-            types: [python]
-            pass_filenames: false
-
-          #  ----------- Docs -----------
-
-          - id: sphinx
-            name: Checking SphinX Docs Builder
-            entry: poetry run task docs-build
-            language: system
-            types: [python]
-            pass_filenames: false
+            files: "apps\/backend-main\\**.*" # Making this hook only run for if there changes in "apps/backend-main" folder.
+            verbose: true
 
     # Prettier
     - repo: https://github.com/pre-commit/mirrors-prettier
@@ -70,7 +21,7 @@ repos:
           - id: prettier
             name: Prettifying JS/JSON/MD Files
             types: [file]
-            files: \.(json|js|md)$
+            files: \.(js|json|md)$
             additional_dependencies:
                 - prettier@2.1.2
                 - '@prettier/plugin-xml@0.12.0'

@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "devgag"
+version = "0.1.0"
+description = ""
+authors = ["Sandun <SandunWebDev@gmail.com>"]
+
+# Scripts to run Thirdparty Pacakges/Etc (Ex. poetry run task test)
+[tool.taskipy.tasks]
+# Code quality checks for each sub project. (Mainly  used for commit hooks and CI/CD)
+code-quality--backend-main = "cd apps/backend-main && . .venv/bin/activate && poetry run task full-code-quality-check"
+
+# PreCommit Hooks
+precommit-install = "poetry run pre-commit install"
+precommit-runinall = "poetry run pre-commit run --all-files"
+
+# Initial Setup
+initial-setup = "poetry install && task precommit-install && cd apps/backend-main && . .venv/bin/activate && poetry run task initial-setup"
+
+
+[virtualenvs]
+create = true
+in-project = true
+
+[tool.poetry.dependencies]
+python = "^3.9"
+taskipy = "^1.9.0"
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^2.15.0"
+isort = "^5.9.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
