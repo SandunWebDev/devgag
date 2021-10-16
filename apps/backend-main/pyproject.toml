@@ -153,6 +153,7 @@ myst-parser = "^0.15.2"
 # Other
 pre-commit = "^2.15.0"
 safety = "^1.10.3"
+livereload = "^2.6.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
