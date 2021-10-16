@@ -1,0 +1,188 @@
+[tool.poetry]
+name = "backend-main"
+version = "0.1.0"
+description = ""
+authors = ["Sandun <SandunWebDev@gmail.com>"]
+license = ""
+readme = "README.md"
+repository = ""
+homepage = ""
+keywords = []
+packages = [ { include = "devgag_api", from = "src" } ]
+
+# Scripts to run user Packages/Modules (Ex. poetry run xxx)
+[tool.poetry.scripts]
+
+
+# Scripts to run Thirdparty Pacakges/Etc (Ex. poetry run task test)
+[tool.taskipy.tasks]
+# Developer Server
+dev = "task flask-server-withWebPack"
+flask-server = "flask run --host=0.0.0.0"
+flask-server-withWebPack = "npm run start"
+build-frontend-assets = "npm run build"
+
+# Testing
+test = "poetry run pytest"
+test-watch = "poetry run pytest-watch"
+test-coverage = "coverage run -m pytest && coverage report"
+test-coverage-html = "coverage run -m pytest --cov --cov-report html --cov-report term && python ./scripts/html-coverage-opener/html-coverage-opener.py"
+
+# Linting, Prettifying, TypeChecking, SecurityChecking, Etc..
+lint-isort = "poetry run isort --check ./"
+lint-isort-fix = "poetry run isort ./"
+lint-black = "poetry run black --diff ./"
+lint-black-fix = "poetry run black ./"
+lint-flake8 = "poetry run flake8"
+lint-mypy = "poetry run mypy"
+lint-pyright = "cd ./scripts/nodejsRunner && npm run typecheck-pyright" # Optional Static Type Checker
+lint-safety = "poetry run safety check --ignore 40459" # Notice ignoring certain package unitl they are patched. (Check Regulary)
+lint-all = "task lint-isort && task lint-black && task lint-flake8 && task lint-mypy && task lint-safety"
+lint-all-fix = "task lint-isort-fix && task lint-black-fix && task lint-flake8 && task lint-mypy && task lint-safety"
+
+# Docs
+docs-liveserver = "sphinx-autobuild docs/source/ docs/build/html --open-browser --watch ./"
+docs-build = "sphinx-build -b html docs/source/ docs/build/html"
+docs-serve= "python -m http.server 8000 --directory ./docs/build/html"
+
+# Docker
+docker-development = "docker-compose -f docker-compose.yml -f docker-compose.development.yml up --remove-orphans"
+docker-development-stop = "docker-compose -f docker-compose.yml -f docker-compose.development.yml down -v"
+docker-development-build = "docker-compose -f docker-compose.yml -f docker-compose.development.yml up --remove-orphans --build"
+docker-development-shell = "docker-compose -f docker-compose.yml -f docker-compose.development.yml run --rm devgag-backend-main--server bash"
+docker-production = "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans"
+docker-production-build = "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans --build"
+
+# Pre-Commit Hooks Related
+precommit-install = "poetry run pre-commit install"
+precommit-runinall = "poetry run pre-commit run --all-files"
+
+# Database Migrations
+db-migrate-init = "flask db init -d ./database/migrations"
+db-migrate-genMigrations = "flask db migrate -d ./database/migrations" # If Schema changed, Run this.
+db-migrate-apply = "flask db upgrade -d ./database/migrations" # If Schema changed OR It's initial db setup, Run this.
+
+# Initial Setup
+initial-setup = "poetry install && npm install && task precommit-install && task db-migrate-apply && cd ./scripts/nodejsRunner && npm install"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+# Utilities
+taskipy = "^1.9.0" # Poetry Task Runnner
+
+# Flask
+Flask = "^2.0.2"
+Werkzeug = "^2.0.2"
+click = "^8.0.3"
+
+# Flask AddOns
+# --- Database
+Flask-SQLAlchemy = "^2.5.1"
+Flask-Migrate = "^3.1.0"
+# --- Auth
+Flask-Login = "^0.5.0"
+Flask-Bcrypt = "^0.7.1"
+# --- Forms
+Flask-WTF = "^0.15.1"
+WTForms = "^2.3.3"
+email-validator = "^1.1.3"
+
+# --- Other
+Flask-Static-Digest = "^0.2.1"
+Flask-Caching = "^1.10.1"
+Flask-DebugToolbar = "^0.11.0"
+
+# Database
+SQLAlchemy = "^1.4.25"
+psycopg2-binary = "^2.9.1"
+
+# Deployment
+gevent = "^21.8.0"
+gunicorn = "^20.1.0"
+supervisor = "^4.2.2"
+
+# Other
+environs = "^9.3.4"
+
+[tool.poetry.dev-dependencies]
+# Linting - Prettifying & Sorting
+black = "^21.9b0"
+isort = "^5.9.3"
+
+# Linting - Flake8 & Plugins
+darglint = "^1.5.8"
+flake8 = "^3.9.2"
+flake8-black = "^0.2.1"
+flake8-bandit = "^2.1.2"
+flake8-bugbear = "^21.9.1"
+flake8-builtins = "^1.5.3"
+flake8-comprehensions = "^3.6.1"
+flake8-debugger = "^4.0.0"
+flake8-docstrings = "^1.6.0"
+flake8-isort = "^4.0.0"
+flake8-pytest-style = "^1.5.0"
+flake8-string-format = "^0.3.0"
+flake8-SQL = "^0.4.1"
+flake8-tidy-imports = "^4.4.1"
+flake8-variables-names = "^0.0.4"
+pep8-naming = "^0.12.1"
+wps-light = "^0.15.3"
+dlint = "^0.11.0"
+
+# Testing
+pytest = "^5.2"
+pytest-watch = "^4.2.0"
+pytest-cov = "^2.12.1"
+coverage = "^5.5"
+WebTest = "^3.0.0"
+factory-boy = "^3.2.0"
+pdbpp = "^0.10.3"
+
+# Type Checkers
+mypy = "^0.910"             # Static Type Checking
+typeguard = "^2.12.1"       # Runtime Type Checking (Runtime Type Checking with Functions Call)
+pydantic = "^1.8.2"         # Runtime Type Checking (Runtime Data Validations with Errors)
+marshmallow = "^3.13.0"     # Runtime Type Checking (Runtime Data Validation with Schema)
+
+# Docs
+Sphinx = "^4.2.0"
+sphinx-rtd-theme = "^1.0.0"
+sphinx-autobuild = "^2021.3.14"
+myst-parser = "^0.15.2"
+
+# Other
+pre-commit = "^2.15.0"
+safety = "^1.10.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+line_length = 80
+multi_line_output = 3
+force_single_line = false
+balanced_wrapping = true
+default_section = "THIRDPARTY"
+known_first_party = "devgag_api"
+include_trailing_comma = true
+skip_gitignore=true
+skip_glob = ["database/migrations/*"]
+
+[tool.black]
+line-length = 80
+extend-exclude = "database/migrations/*"
+
+[tool.mypy]
+strict = false
+pretty = true
+show_column_numbers = true
+show_error_codes = true
+show_error_context = true
+ignore_missing_imports=true
+warn_return_any = true
+warn_unused_configs = true
+files=["src", "tests"]
+exclude = "docs"

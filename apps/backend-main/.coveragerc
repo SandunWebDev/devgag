@@ -1,0 +1,27 @@
+[coverage:paths]
+source =
+  src
+
+[coverage:run]
+branch = true
+source =
+  src
+data_file = build/coverage/.coverage_raw_result
+
+[coverage:report]
+omit =
+  .venv/*
+  tests/*
+  **/test_*.py
+  **/*_test.py
+show_missing = true
+ignore_errors= true
+precision = 2
+fail_under = 75
+
+[coverage:html]
+directory = build/coverage/html_report
+show_contexts= true
+
+[coverage:json]
+output = build/coverage.json

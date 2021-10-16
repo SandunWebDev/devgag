@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+    devgag-backend-main--server:
+        build:
+            target: production
+        ports:
+            - '80:5001' # NginX Port
+        image: 'devgag-backend-main--server--prod_image'
+        container_name: devgag-backend-main--server--prod_container
+        command: ./docker/scripts/starter-production.sh
+
+        environment:
+            - FLASK_ENV=production
+
+        volumes:
+            - dbdata:/app/database # Storing database data permanently.

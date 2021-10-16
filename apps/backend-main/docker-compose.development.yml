@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+    devgag-backend-main--server:
+        build:
+            target: development # Building only upto "production" stage in Dockerfile.
+        ports:
+            - '5000:5000' # Gunicorn Port
+        image: 'devgag-backend-main--server--dev_image'
+        container_name: devgag-backend-main--server--dev_container
+        command: ./docker/scripts/starter-development.sh
+
+        volumes:
+            # Mounting Current host folder into container. (Dynamic mounting. So hot reload, code editing, etc... can be done without building again and again.)
+            # NOTE : But currently, For some reasons "npm run xxx" scripts don't work when mounted like this. (Ex. npm run nodemon-start ----> Permission Error). Due to permission/ownership issue.
+            #        So as a temorary solution, In "starter-development.sh" and other relevent files use "yarn run xxx" instead.
+            #
+            - .:/app
+
+            # Below is a workaround to prevent some host folders being mounted in to container with above dynamic mounting. (Like .venv, node_modules, etc.)
+            #  So host venv, node_module, etc... folder don't have no effect on container, vice versa. They act indipendent on each, witout conflicts.
+            #  Also useful when want to use node/npm/etc... both outside container for test/lint, OR CI envoroments, etc.
+            #
+            - /app/.venv
+            - /app/node_modules
+
+    # Just for easy database management.
+    # SIDE NOTE : Currently there is not easy wat to access SqLite Files with this. (https://www.adminer.org/en/password/)
+    devgag-backend-main--dbadminer:
+        container_name: devgag-backend-main--dbadminer
+        image: adminer
+        environment:
+            ADMINER_DEFAULT_SERVER: devgag-backend-main--server
+        ports:
+            - '8080:8080'

@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+    devgag-backend-main--server:
+        build:
+            context: .
+        env_file: # Loading all env. variables in these files into container. Note that these are not avaialble during Image Build. Only in running container.
+            - .env
+
+networks:
+    default:
+        name: devgag-backend-main--network
+
+# Custom volume to store data premenetly.
+volumes:
+    dbdata: # To store production database data.

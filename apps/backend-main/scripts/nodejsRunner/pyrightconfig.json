@@ -1,0 +1,28 @@
+{
+    "pythonVersion": "3.9",
+    "pythonPlatform": "Linux",
+
+    "include": ["../../src", "../../tests"],
+    "exclude": [
+        "**/node_modules",
+        "**/__pycache__",
+        "**/mypy_cache",
+        "**/pytest_cache",
+        "../../src/experimental",
+        "../../src/typestubs"
+    ],
+    "ignore": [],
+
+    "stubPath": "../../src",
+    "venvPath": "../../.venv",
+
+    "typeCheckingMode": "basic",
+    "reportMissingImports": true,
+    "reportMissingTypeStubs": false,
+
+    "executionEnvironments": [
+        {
+            "root": "../../"
+        }
+    ]
+}

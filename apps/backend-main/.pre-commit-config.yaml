@@ -1,0 +1,126 @@
+fail_fast: true # Used to stop pre-commit, running below steps when one is failed.
+
+repos:
+    - repo: local
+      hooks:
+          #  ----------- Linting -----------
+
+          - id: isort
+            name: ISort
+            entry: isort
+            language: system
+            types: [python]
+
+          - id: black
+            name: Black
+            entry: black
+            language: system
+            types: [python]
+            require_serial: true
+
+          - id: flake8
+            name: Flake8
+            entry: flake8
+            language: system
+            types: [python]
+            require_serial: true
+
+          - id: mypy
+            name: MyPy Type Checking
+            entry: mypy
+            language: system
+            types: [python]
+
+          - id: safety
+            name: Checking Third Party Package Safety
+            entry: safety check
+            language: system
+            types: [python]
+            pass_filenames: false
+
+          #  ----------- Testing -----------
+
+          - id: pytest
+            name: Running Tests
+            language: system
+            entry: pytest
+            types: [python]
+            pass_filenames: false
+
+          - id: pytest-cov
+            name: Testing Coverage
+            entry: poetry run task test-coverage
+            language: system
+            types: [python]
+            pass_filenames: false
+
+          #  ----------- Docs -----------
+
+          - id: sphinx
+            name: Checking SphinX Docs Builder
+            entry: poetry run task docs-build
+            language: system
+            types: [python]
+            pass_filenames: false
+
+    # Prettier
+    - repo: https://github.com/pre-commit/mirrors-prettier
+      rev: v2.3.0
+      hooks:
+          - id: prettier
+            name: Prettifying JS/JSON/MD Files
+            types: [file]
+            files: \.(json|js|md)$
+            additional_dependencies:
+                - prettier@2.1.2
+                - '@prettier/plugin-xml@0.12.0'
+
+    # Multiple Pre Bundled "pre-commit-hooks". (In here it will auto download necessary things, since we defined URL for it in "repo")
+    # But We can install these manually too. (pip install pre-commit-hooks) and just used in above.
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.0.1
+      hooks:
+          - id: end-of-file-fixer
+            name: Fixing End of Files
+
+          - id: mixed-line-ending
+            name: Fixing Mixed Line Endings
+
+          - id: trailing-whitespace
+            name: Fixing Trailing Whitespace
+
+          - id: check-toml
+            name: Checking TOML Files
+            types: [toml]
+
+          - id: check-yaml
+            name: Checking YAML Files
+            types: [yaml]
+
+          - id: check-json
+            name: Checking JSON Files
+            types: [json]
+            exclude: |
+                (?x)(
+                    .vscode/|
+                    .devcontainer/
+                )
+
+          - id: check-added-large-files
+            name: Checking Large Files
+
+          - id: check-merge-conflict
+            name: Checking Merge Conflicts
+
+          - id: debug-statements
+            name: Checking Debug Statements
+
+          - id: detect-private-key
+            name: Checking Private Keys
+
+          - id: check-case-conflict
+            name: Checking Case Conflicts
+
+          - id: no-commit-to-branch
+            name: Prevent Direct Commits to Master & Staging
+            args: [--branch=staging, --branch=master]

@@ -1,0 +1,46 @@
+# Git
+.git
+.github
+.dockerignore
+
+# Virtual Enviroments
+.venv
+venv
+
+# Installed Packages
+**/node_modules/**
+
+# Cachings
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Testing
+htmlcov/
+.coverage
+.coverage.*
+.pytest_cache/
+.mypy_cache
+
+# Other
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Other 2
+.vscode
+
+# Build Artifcats
+build
+docs/build
+
+# Static Generator Output
+static/build
+**/static/cache_manifest.json
+
+# -------------- Custom --------------
+
+# Not ignoring, Beacuse this file is used by some development tools. (Ex. Black)
+!.gitignore

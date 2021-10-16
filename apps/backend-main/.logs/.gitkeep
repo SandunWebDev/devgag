@@ -1,0 +1,3 @@
+# Placeholder Folder.
+# This folder will contain logs created from "SupervisorD". (Like NginX, Gunicorn, ...)
+# This is mostly applicable in production/docker environment.
