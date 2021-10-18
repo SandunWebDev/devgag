@@ -16,13 +16,13 @@ const ProductionPlugins = [
 ];
 
 const debug = process.env.NODE_ENV !== 'production';
-const rootAssetPath = path.join(__dirname, 'assets');
+const rootAssetPath = path.join(__dirname, 'src');
 
 module.exports = {
     // Configuration
     context: __dirname,
     entry: {
-        main_js: './assets/js/main',
+        main_js: path.join(__dirname, 'src', 'js', 'main.js'),
         main_css: [
             path.join(
                 __dirname,
@@ -40,14 +40,21 @@ module.exports = {
                 'css',
                 'bootstrap.css',
             ),
-            path.join(__dirname, 'assets', 'css', 'main.css'),
+            path.join(__dirname, 'src', 'css', 'main.css'),
         ],
     },
     mode: debug,
     output: {
         chunkFilename: '[id].js',
         filename: '[name].bundle.js',
-        path: path.join(__dirname, 'src', 'devgag_api', 'static', 'build'),
+        path: path.join(
+            __dirname,
+            '../../',
+            'src',
+            'devgag_api',
+            'static',
+            'build',
+        ),
         publicPath: '/static/build/',
     },
     resolve: {

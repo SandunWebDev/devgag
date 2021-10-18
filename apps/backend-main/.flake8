@@ -97,5 +97,5 @@ ignore =
 
 per-file-ignores =
     tests/*.py: S101, S105, S106, WPS118, WPS218        # There are multiple `assert`s in tests. / Hardcoded passwords / Too long fn. names / Too many Asserts
-    autoapp.py: WPS453      # It's a executable file, But there isn't a shebang
+    autoapp.py: WPS453, S104      # It's a executable file, But there isn't a shebang / Binding Port to All Hosts
     NOTEXIST.py: XXX

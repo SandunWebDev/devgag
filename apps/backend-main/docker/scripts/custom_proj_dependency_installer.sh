@@ -5,9 +5,10 @@
 # Sourcing "bashrc" to update things. (Ex. asdf)
 source ~/.bashrc
 
-# Installing NodeJS Dependecies needed for frontend build stuff. (Webpack, Etc...)
+# Insalling "nodejsRunner" script folder. (Simple NodeJs project to Just run any Nodejs related tools. Ex. pyright )
+cd ./scripts/nodejsRunner
 npm install
 
-# Insalling "nodejsRunner" script folder.
-cd ./scripts/nodejsRunner
+# A main NodeJS project that bundle "Frontend Assets" (CSS, JS, ...) through webpack. Eventually we will use these from Flask templates.
+cd ../../apps/frontend-assets
 npm install

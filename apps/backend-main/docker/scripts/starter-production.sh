@@ -9,8 +9,8 @@ supervisord -c /etc/supervisor/supervisord.conf
 # Little explanation about how docker production build serve the content.
 <<COMMENT
 - Frontline for "UserRequest" are "NginX"
-- If request is static file (/static/xxx), Its handled directly by NginX and send to the user. (Because NginX is very good with serving static contents.)
-    - These are static files built by our WebPack Config on "assets" folder files. (Mainly CSS, Images & JS Functions)
+- If request is static file (http://abc.com/static/xxx), Its handled directly by NginX and send to the user. (Because NginX is very good with serving static contents.)
+    - These are static files built by our WebPack Config on "backend-main/apps/frontend-assets/src" folder files and bundled into "backend-main/src/devgag_api/static/build". (Mainly CSS, Images & JS Functions)
     - Notice that this frontend file generating/serving is tightly coupled with Flask. (Mainly "templates" folders html files)
 
     - By the way, Know that we can decouple frontend from flask. (Like we are doing with ./apps/frontend-main)

@@ -21,8 +21,9 @@ services:
             #  So host venv, node_module, etc... folder don't have no effect on container, vice versa. They act indipendent on each, witout conflicts.
             #  Also useful when want to use node/npm/etc... both outside container for test/lint, OR CI envoroments, etc.
             #
-            - /app/.venv
-            - /app/node_modules
+            - tempData1:/app/.venv
+            - tempData2:/app/apps/frontend-assets/node_modules
+            - tempData3:/app/src/devgag_api/static/build
 
     # Just for easy database management.
     # SIDE NOTE : Currently there is not easy wat to access SqLite Files with this. (https://www.adminer.org/en/password/)

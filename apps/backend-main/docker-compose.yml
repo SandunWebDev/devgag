@@ -14,3 +14,8 @@ networks:
 # Custom volume to store data premenetly.
 volumes:
     dbdata: # To store production database data.
+
+    # Docker volumes to hold some folders seperate from host.
+    tempData1:
+    tempData2:
+    tempData3:

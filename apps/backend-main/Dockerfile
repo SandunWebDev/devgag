@@ -79,11 +79,11 @@ RUN chmod +x ./docker/**/*.sh
 
 # Script to Install Custom Languages.
 # Installing NodeJs (Needed for some Custom Development Task)
-COPY ./package*.json ./
 RUN ./docker/scripts/custom_lang_installer.sh
 ENV PATH="~/.asdf/bin:~/.asdf/shims:${PATH}"
 
 # Installing Spcial Other Lanaguage Projects Dependencies. (Ex. NodeJS WebPack Builder, NodeJSRunner)
+COPY ./apps/frontend-assets/package*.json ./apps/frontend-assets/
 COPY ./scripts ./scripts
 RUN ./docker/scripts/custom_proj_dependency_installer.sh
 
@@ -98,9 +98,6 @@ RUN poetry install
 
 # Applying Migrations to Database
 RUN poetry run task db-migrate-apply
-
-# Building Frontend Assets. (Mainly these are copied from here in production stage)
-RUN npm run build
 
 EXPOSE $DEVELOPMENT_EXPOSE_PORT
 ENTRYPOINT ./docker/scripts/docker_entrypoint.sh $0 $@
@@ -120,6 +117,21 @@ RUN poetry run task lint-all
 RUN poetry run task test && poetry run task test-coverage
 # Docs
 RUN poetry run task docs-build
+
+ENTRYPOINT ./docker/scripts/docker-entrypoint.sh $0 $@
+CMD ["tail", "-f", "/dev/null"]
+
+##############################################################################################
+# Artifacts Stage
+#   - Generating artifacts (Ex. Frontend Asset Builds, DocsBuils, Etc...)
+#   - These generated files will be used in production stage.
+##############################################################################################
+
+FROM development AS artifacts-builder
+
+# Building Frontend Assets.
+# Similar to "poetry run task build-frontend-assets" script.
+RUN cd ./apps/frontend-assets && npm run build
 
 ENTRYPOINT ./docker/scripts/docker-entrypoint.sh $0 $@
 CMD ["tail", "-f", "/dev/null"]
@@ -148,9 +160,6 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 COPY --from=builder-base $POETRY_HOME $POETRY_HOME
 COPY --from=builder-base $PROJECT_PATH $PROJECT_PATH
 
-# Copying Frontend Artifacts.
-COPY --from=development /app/src/devgag_api/static /app/src/devgag_api/static
-
 # Copying SupervisorD Programs.
 COPY ./docker/supervisord/supervisord.conf /etc/supervisor/supervisord.conf
 COPY ./docker/supervisord/supervisord_programs /etc/supervisor/conf.d
@@ -162,6 +171,9 @@ COPY ./database ./database
 COPY ./autoapp.py ./autoapp.py
 COPY .env .env
 COPY ./README.md ./README.md
+
+# Copying Artifacts.
+COPY --from=artifacts-builder /app/src/devgag_api/static /app/src/devgag_api/static
 
 # All "Production Packages" are already installed. But In here we are just running to install "Our Source Code Package" itself as dependency, which is prevented in previous stages using "--no-root"
 RUN poetry install --no-dev

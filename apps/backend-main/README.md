@@ -52,9 +52,11 @@ poetry run task lint-all
 
 ### Asset Management
 
-Files placed inside the `assets` directory and its subdirectories (excluding `js` and `css`) will be copied by webpack's `file-loader` into the `src/devgag_api/static/build` directory.
+Files placed inside the `backend-main/apps/frontend-assets/src` directory and its subdirectories (excluding `js` and `css`) will be bundled and copied by webpack into the `backend-main/src/devgag_api/static/build` directory.
 In production, the plugin `Flask-Static-Digest` zips the webpack content and tags them with a MD5 hash.
 As a result, you must use the `static_url_for` function when including static content, as it resolves the correct file name, including the MD5 hash.
+
+-   These are automatically done in build processes. Just use `poetry run task dev` OR `poetry run task build-frontend-assets` scripts.
 
 For example
 

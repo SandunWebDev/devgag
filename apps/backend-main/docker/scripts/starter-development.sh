@@ -6,4 +6,7 @@
 
 # Starting WebPack Build Process and Developemnt Flask Server
 # Below is "Yarn" eqvalent to "npm run start OR poetry run task dev"
+pwd
+./scripts/scripts/bashMix/webpack-dev-cleanup.sh
+cd ./apps/frontend-assets
 yarn run concurrently -n "WEBPACK,FLASK" -c "bgBlue.bold,bgMagenta.bold" "yarn run webpack-watch" "yarn run flask-server"

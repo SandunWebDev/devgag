@@ -19,8 +19,8 @@ packages = [ { include = "devgag_api", from = "src" } ]
 # Developer Server
 dev = "task flask-server-withWebPack"
 flask-server = "flask run --host=0.0.0.0"
-flask-server-withWebPack = "npm run start"
-build-frontend-assets = "npm run build"
+flask-server-withWebPack = "cd ./apps/frontend-assets && npm run start"
+build-frontend-assets = "cd ./apps/frontend-assets && npm run build"
 
 # Testing
 test = "poetry run pytest"
@@ -57,9 +57,9 @@ docker-production = "docker-compose -f docker-compose.yml -f docker-compose.prod
 docker-production-build = "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans --build"
 
 # Database Migrations
-db-migrate-init = "flask db init -d ./database/migrations"
-db-migrate-genMigrations = "flask db migrate -d ./database/migrations" # If Schema changed, Run this.
-db-migrate-apply = "flask db upgrade -d ./database/migrations" # If Schema changed OR It's initial db setup, Run this.
+db-migrate-init = "IS_CUSTOM_FLASK_CMD=True flask db init -d ./database/migrations"
+db-migrate-genMigrations = "IS_CUSTOM_FLASK_CMD=True flask db migrate -d ./database/migrations" # If Schema changed, Run this.
+db-migrate-apply = "IS_CUSTOM_FLASK_CMD=True flask db upgrade -d ./database/migrations" # If Schema changed OR It's initial db setup, Run this.
 
 # Initial Setup
 initial-setup = "poetry install && npm install && task db-migrate-apply && cd ./scripts/nodejsRunner && npm install"
@@ -103,6 +103,7 @@ supervisor = "^4.2.2"
 
 # Other
 environs = "^9.3.4"
+livereload = "^2.6.3" # This is needed in prod dependecy list, Just because autoapp.py import this.
 
 [tool.poetry.dev-dependencies]
 # Linting - Prettifying & Sorting
@@ -153,7 +154,6 @@ myst-parser = "^0.15.2"
 # Other
 pre-commit = "^2.15.0"
 safety = "^1.10.3"
-livereload = "^2.6.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
