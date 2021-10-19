@@ -1,1 +1,1 @@
-from devgag_api.blueprints import public, user
+from devgag_api.blueprints import public, user, api

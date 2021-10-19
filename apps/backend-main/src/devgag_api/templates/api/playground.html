@@ -1,0 +1,11 @@
+{% extends "base_layout.html" %} {% block content %}
+<div class="container">
+  <h1 class="mt-5">API PLAYGROUND</h1>
+  <h5>{{my_description}}</h5>
+  <hr />
+  <br />
+
+  <a href="{{ url_for('api.hello', name='SANDUN', no_of_times=2) }}">Hello API</a>
+  </p>
+</div>
+{% endblock %}

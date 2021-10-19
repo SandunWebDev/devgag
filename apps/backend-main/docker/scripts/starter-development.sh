@@ -9,4 +9,4 @@
 pwd
 ./scripts/scripts/bashMix/webpack-dev-cleanup.sh
 cd ./apps/frontend-assets
-yarn run concurrently -n "WEBPACK,FLASK" -c "bgBlue.bold,bgMagenta.bold" "yarn run webpack-watch" "yarn run flask-server"
+yarn run concurrently -n "WEBPACK,FLASK" -c "bgBlue.bold,bgMagenta.bold" --restart-tries 10 --restart-after 5000 "yarn run webpack-watch" "yarn run flask-server"

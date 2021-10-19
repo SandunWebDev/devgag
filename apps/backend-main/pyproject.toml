@@ -103,7 +103,7 @@ supervisor = "^4.2.2"
 
 # Other
 environs = "^9.3.4"
-livereload = "^2.6.3" # This is needed in prod dependecy list, Just because autoapp.py import this.
+livereload = "2.5.1" # This is needed in prod dependecy list, Just because autoapp.py import this. By the way, Also notice that we are using older version here beacuse issue of "https://github.com/lepture/python-livereload/issues/170".
 
 [tool.poetry.dev-dependencies]
 # Linting - Prettifying & Sorting
