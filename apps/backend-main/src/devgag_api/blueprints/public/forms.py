@@ -4,7 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField
 from wtforms.validators import DataRequired
 
-from devgag_api.blueprints.user.models import User
+from devgag_api.models import User
 
 
 class LoginForm(FlaskForm):

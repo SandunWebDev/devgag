@@ -5,7 +5,7 @@ See: http://webtest.readthedocs.org/
 
 from flask import url_for
 
-from devgag_api.blueprints.user.models import User
+from devgag_api.models import User
 from tests.factories import UserFactory
 
 

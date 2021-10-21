@@ -613,6 +613,18 @@ python-versions = ">=3.5"
 Flask = "*"
 
 [[package]]
+name = "flask-cors"
+version = "3.0.10"
+description = "A Flask extension adding a decorator for CORS support"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+Flask = ">=0.9"
+Six = "*"
+
+[[package]]
 name = "flask-debugtoolbar"
 version = "0.11.0"
 description = "A toolbar overlay for debugging Flask applications."
@@ -627,6 +639,22 @@ itsdangerous = "*"
 werkzeug = "*"
 
 [[package]]
+name = "flask-jwt-extended"
+version = "4.3.1"
+description = "Extended JWT integration with Flask"
+category = "main"
+optional = false
+python-versions = ">=3.6,<4"
+
+[package.dependencies]
+Flask = ">=1.0,<3.0"
+PyJWT = ">=2.0,<3.0"
+Werkzeug = ">=0.14"
+
+[package.extras]
+asymmetric_crypto = ["cryptography (>=35.0.0)"]
+
+[[package]]
 name = "flask-login"
 version = "0.5.0"
 description = "User session management for Flask"
@@ -636,6 +664,26 @@ python-versions = "*"
 
 [package.dependencies]
 Flask = "*"
+
+[[package]]
+name = "flask-marshmallow"
+version = "0.14.0"
+description = "Flask + marshmallow for beautiful APIs"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+Flask = "*"
+marshmallow = ">=2.0.0"
+six = ">=1.9.0"
+
+[package.extras]
+dev = ["flask-sqlalchemy", "pytest", "mock", "flake8 (==3.8.3)", "pre-commit (>=2.4,<3.0)", "tox", "marshmallow-sqlalchemy (>=0.13.0,<0.19.0)", "flake8-bugbear (==20.1.4)", "marshmallow-sqlalchemy (>=0.13.0)"]
+docs = ["marshmallow-sqlalchemy (>=0.13.0)", "Sphinx (==3.2.1)", "sphinx-issues (==1.2.0)"]
+lint = ["flake8 (==3.8.3)", "pre-commit (>=2.4,<3.0)", "flake8-bugbear (==20.1.4)"]
+sqlalchemy = ["flask-sqlalchemy", "marshmallow-sqlalchemy (>=0.13.0,<0.19.0)", "marshmallow-sqlalchemy (>=0.13.0)"]
+tests = ["flask-sqlalchemy", "pytest", "mock", "marshmallow-sqlalchemy (>=0.13.0,<0.19.0)", "marshmallow-sqlalchemy (>=0.13.0)"]
 
 [[package]]
 name = "flask-migrate"
@@ -890,6 +938,24 @@ lint = ["mypy (==0.910)", "flake8 (==4.0.1)", "flake8-bugbear (==21.9.2)", "pre-
 tests = ["pytest", "pytz", "simplejson"]
 
 [[package]]
+name = "marshmallow-sqlalchemy"
+version = "0.26.1"
+description = "SQLAlchemy integration with the marshmallow (de)serialization library"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+marshmallow = ">=3.0.0"
+SQLAlchemy = ">=1.2.0"
+
+[package.extras]
+dev = ["pytest", "pytest-lazy-fixture", "flake8 (==3.9.2)", "flake8-bugbear (==21.4.3)", "pre-commit (>=2.0,<3.0)", "tox"]
+docs = ["sphinx (==4.0.2)", "alabaster (==0.7.12)", "sphinx-issues (==1.2.0)"]
+lint = ["flake8 (==3.9.2)", "flake8-bugbear (==21.4.3)", "pre-commit (>=2.0,<3.0)"]
+tests = ["pytest", "pytest-lazy-fixture"]
+
+[[package]]
 name = "mccabe"
 version = "0.6.1"
 description = "McCabe checker, plugin for flake8"
@@ -1138,6 +1204,17 @@ dotenv = ["python-dotenv (>=0.10.4)"]
 email = ["email-validator (>=1.0.3)"]
 
 [[package]]
+name = "pydash"
+version = "5.1.0"
+description = "The kitchen sink of Python utility libraries for doing \"stuff\" in a functional way. Based on the Lo-Dash Javascript library."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.extras]
+dev = ["black", "coverage", "docformatter", "flake8", "flake8-black", "flake8-bugbear", "flake8-isort", "invoke", "isort", "pylint", "pytest", "pytest-cov", "pytest-flake8", "pytest-pylint", "sphinx", "sphinx-rtd-theme", "tox", "twine", "wheel"]
+
+[[package]]
 name = "pydocstyle"
 version = "6.1.1"
 description = "Python docstring style checker"
@@ -1166,6 +1243,20 @@ description = "Pygments is a syntax highlighting package written in Python."
 category = "dev"
 optional = false
 python-versions = ">=3.5"
+
+[[package]]
+name = "pyjwt"
+version = "2.3.0"
+description = "JSON Web Token implementation in Python"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.extras]
+crypto = ["cryptography (>=3.3.1)"]
+dev = ["sphinx", "sphinx-rtd-theme", "zope.interface", "cryptography (>=3.3.1)", "pytest (>=6.0.0,<7.0.0)", "coverage[toml] (==5.0.4)", "mypy", "pre-commit"]
+docs = ["sphinx", "sphinx-rtd-theme", "zope.interface"]
+tests = ["pytest (>=6.0.0,<7.0.0)", "coverage[toml] (==5.0.4)"]
 
 [[package]]
 name = "pyparsing"
@@ -1798,7 +1889,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "a3f5d0572caed6734cae2afb2812f6dc9d7b94ec8c76106b01ea8d2b7f5985dd"
+content-hash = "0bc9c1f710919dc2433e83c92c371b1d341eb1fd35e64588087fdadd4c2fd096"
 
 [metadata.files]
 alabaster = [
@@ -2102,13 +2193,25 @@ flask-caching = [
     {file = "Flask-Caching-1.10.1.tar.gz", hash = "sha256:cf19b722fcebc2ba03e4ae7c55b532ed53f0cbf683ce36fafe5e881789a01c00"},
     {file = "Flask_Caching-1.10.1-py3-none-any.whl", hash = "sha256:bcda8acbc7508e31e50f63e9b1ab83185b446f6b6318bd9dd1d45626fba2e903"},
 ]
+flask-cors = [
+    {file = "Flask-Cors-3.0.10.tar.gz", hash = "sha256:b60839393f3b84a0f3746f6cdca56c1ad7426aa738b70d6c61375857823181de"},
+    {file = "Flask_Cors-3.0.10-py2.py3-none-any.whl", hash = "sha256:74efc975af1194fc7891ff5cd85b0f7478be4f7f59fe158102e91abb72bb4438"},
+]
 flask-debugtoolbar = [
     {file = "Flask-DebugToolbar-0.11.0.tar.gz", hash = "sha256:3c4e79d354ede014e6657c545a536d4fb273cc89e3fd6b4835b02e346dd3aab4"},
     {file = "Flask_DebugToolbar-0.11.0-py2.py3-none-any.whl", hash = "sha256:0e9a80d4c599233c68376e81cc99976200b5ac5248cfb24f18935cc5b69ac5b3"},
 ]
+flask-jwt-extended = [
+    {file = "Flask-JWT-Extended-4.3.1.tar.gz", hash = "sha256:ad6977b07c54e51c13b5981afc246868b9901a46715d9b9827898bfd916aae88"},
+    {file = "Flask_JWT_Extended-4.3.1-py2.py3-none-any.whl", hash = "sha256:c82c9e505bc96f4a5186de31c05262dbcde6fa10581e9aa46df8f99ca04be2c3"},
+]
 flask-login = [
     {file = "Flask-Login-0.5.0.tar.gz", hash = "sha256:6d33aef15b5bcead780acc339464aae8a6e28f13c90d8b1cf9de8b549d1c0b4b"},
     {file = "Flask_Login-0.5.0-py2.py3-none-any.whl", hash = "sha256:7451b5001e17837ba58945aead261ba425fdf7b4f0448777e597ddab39f4fba0"},
+]
+flask-marshmallow = [
+    {file = "flask-marshmallow-0.14.0.tar.gz", hash = "sha256:bd01a6372cbe50e36f205cfff0fc5dab0b7b662c4c8b2c4fc06a3151b2950950"},
+    {file = "flask_marshmallow-0.14.0-py2.py3-none-any.whl", hash = "sha256:2adcd782b5a4a6c5ae3c96701f320d8ca6997995a52b2661093c56cc3ed24754"},
 ]
 flask-migrate = [
     {file = "Flask-Migrate-3.1.0.tar.gz", hash = "sha256:57d6060839e3a7f150eaab6fe4e726d9e3e7cffe2150fb223d73f92421c6d1d9"},
@@ -2313,6 +2416,10 @@ marshmallow = [
     {file = "marshmallow-3.14.0-py3-none-any.whl", hash = "sha256:6d00e42d6d6289f8cd3e77618a01689d57a078fe324ee579b00fa206d32e9b07"},
     {file = "marshmallow-3.14.0.tar.gz", hash = "sha256:bba1a940985c052c5cc7849f97da196ebc81f3b85ec10c56ef1f3228aa9cbe74"},
 ]
+marshmallow-sqlalchemy = [
+    {file = "marshmallow-sqlalchemy-0.26.1.tar.gz", hash = "sha256:d8525f74de51554b5c8491effe036f60629a426229befa33ff614c8569a16a73"},
+    {file = "marshmallow_sqlalchemy-0.26.1-py2.py3-none-any.whl", hash = "sha256:ba7493eeb8669a3bf00d8f906b657feaa87a740ae9e4ecf829cfd6ddf763d276"},
+]
 mccabe = [
     {file = "mccabe-0.6.1-py2.py3-none-any.whl", hash = "sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42"},
     {file = "mccabe-0.6.1.tar.gz", hash = "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"},
@@ -2500,6 +2607,10 @@ pydantic = [
     {file = "pydantic-1.8.2-py3-none-any.whl", hash = "sha256:fec866a0b59f372b7e776f2d7308511784dace622e0992a0b59ea3ccee0ae833"},
     {file = "pydantic-1.8.2.tar.gz", hash = "sha256:26464e57ccaafe72b7ad156fdaa4e9b9ef051f69e175dbbb463283000c05ab7b"},
 ]
+pydash = [
+    {file = "pydash-5.1.0-py3-none-any.whl", hash = "sha256:ced4fedb163eb07fbee376e474bca74029eb9fab215614449fe13164f71dd9e3"},
+    {file = "pydash-5.1.0.tar.gz", hash = "sha256:1b2b050ac1bae049cd07f5920b14fabbe52638f485d9ada1eb115a9eebff6835"},
+]
 pydocstyle = [
     {file = "pydocstyle-6.1.1-py3-none-any.whl", hash = "sha256:6987826d6775056839940041beef5c08cc7e3d71d63149b48e36727f70144dc4"},
     {file = "pydocstyle-6.1.1.tar.gz", hash = "sha256:1d41b7c459ba0ee6c345f2eb9ae827cab14a7533a88c5c6f7e94923f72df92dc"},
@@ -2511,6 +2622,10 @@ pyflakes = [
 pygments = [
     {file = "Pygments-2.10.0-py3-none-any.whl", hash = "sha256:b8e67fe6af78f492b3c4b3e2970c0624cbf08beb1e493b2c99b9fa1b67a20380"},
     {file = "Pygments-2.10.0.tar.gz", hash = "sha256:f398865f7eb6874156579fdf36bc840a03cab64d1cde9e93d68f46a425ec52c6"},
+]
+pyjwt = [
+    {file = "PyJWT-2.3.0-py3-none-any.whl", hash = "sha256:e0c4bb8d9f0af0c7f5b1ec4c5036309617d03d56932877f2f7a0beeb5318322f"},
+    {file = "PyJWT-2.3.0.tar.gz", hash = "sha256:b888b4d56f06f6dcd777210c334e69c737be74755d3e5e9ee3fe67dc18a0ee41"},
 ]
 pyparsing = [
     {file = "pyparsing-2.4.7-py2.py3-none-any.whl", hash = "sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b"},

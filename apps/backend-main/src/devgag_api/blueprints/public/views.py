@@ -13,9 +13,9 @@ from flask_login import login_required, login_user, logout_user
 
 from devgag_api.blueprints.public.forms import LoginForm
 from devgag_api.blueprints.user.forms import RegisterForm
-from devgag_api.blueprints.user.models import User
 from devgag_api.flask_extensions import login_manager
 from devgag_api.flask_utils import flash_errors
+from devgag_api.models import User
 
 blueprint = Blueprint("public", __name__, static_folder="../../static")
 

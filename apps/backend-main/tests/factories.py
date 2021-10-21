@@ -3,8 +3,8 @@
 from factory import Sequence
 from factory.alchemy import SQLAlchemyModelFactory
 
-from devgag_api.blueprints.user.models import User
 from devgag_api.database import db
+from devgag_api.models import User
 
 
 class BaseFactory(SQLAlchemyModelFactory):

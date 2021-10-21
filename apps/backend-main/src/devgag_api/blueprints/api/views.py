@@ -1,14 +1,20 @@
 """API Views."""
 
-from flask import Blueprint, render_template, request, redirect, url_for, abort
 from pathlib import Path
 
+from flask import Blueprint, abort, redirect, render_template, request, url_for
 from markupsafe import escape
 
+from devgag_api.blueprints.api.auth import views as auth_views
 
 blueprint = Blueprint(
-    "api", __name__, url_prefix="/api", static_folder="../../static"
+    "api",
+    __name__,
+    url_prefix="/api",
 )
+
+# Registering Nested Blueprints
+blueprint.register_blueprint(auth_views.blueprint)
 
 
 @blueprint.route("/playground")
@@ -40,6 +46,7 @@ def hello(name, no_of_times):
 
 
 @blueprint.route("/namelist", methods=["GET"])
+@blueprint.route("/userlist", methods=["GET"])
 def name_list():
     return {"status": True, "names": ["Sandun", "Sahan"]}
 
@@ -69,3 +76,27 @@ def redirect_me():
 @blueprint.route("/error_path", methods=["GET"])
 def error_path():
     abort(400)
+
+
+# @blueprint.route("/db", methods=["GET"])
+# def database_check():
+#     myUser = User.query.filter_by(username="abc").first()
+
+#     return myUser.email
+
+
+@blueprint.route(
+    "/temp/<string:name>/<int:no_of_times>", methods=["GET", "POST"]
+)
+def hellox(name, no_of_times):
+    # raise Exception("YYY")
+
+    # json_body = request.get_json(force=True, silent=True)
+    json_body = request.get_json(
+        force=True,
+    )
+
+    if json_body is None:
+        return "Failed"
+    else:
+        return json_body
