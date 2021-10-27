@@ -1,5 +1,7 @@
+from marshmallow import validate
+
 from devgag_api.flask_extensions import marshmallow
-from devgag_api.models import User
+from devgag_api.models import JokePostLike
 
 # SIDENOTE : Since we are using "marshmallow.SQLAlchemyAutoSchema", All the table fields are automatically added to schema.
 #            But columns that we need to pass additional paramas, declare them using "marshmallow.auto_field()".
@@ -8,14 +10,23 @@ from devgag_api.models import User
 #               But note that things like DB models "nullable/required/..." are automatically handled.
 
 
-class UserSchema(marshmallow.SQLAlchemyAutoSchema):
+class JokePostLikeSchema(marshmallow.SQLAlchemyAutoSchema):
     class Meta:
-        model = User
+        model = JokePostLike
         include_fk = True  # Include forign fields.
         include_relationships = True
 
-        exclude = ("_password",)
+    # Custom error messages.
+    error_messages = {
+        "type": "Provided data are incompatible or invalid. Or data are not provided at all.",  # When invalid data in loaded. (Ex. Not a JSON)
+    }
+
+    # --------------- FIELDS
+
+    like = marshmallow.auto_field(
+        validate=validate.OneOf([-1, 1]),
+    )
 
 
-user_schema = UserSchema()
-users_schema = UserSchema(many=True)
+jokepost_like_schema = JokePostLikeSchema()
+jokepost_likes_schema = JokePostLikeSchema(many=True)

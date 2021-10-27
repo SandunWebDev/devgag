@@ -83,55 +83,31 @@ def register_blueprints(app):
 def register_errorhandlers(app):
     """Register error handlers."""
 
-    is_development = app.config["ENV"] == "development"
-
-    def handle_exception_as_json(e):
-        """Return JSON instead of HTML Page for errors."""
+    def generic_error_handler(e):
+        error_occurred_path = request.path
+        is_development = app.config["ENV"] == "development"
 
         if is_development:
-            print("ERROR : ", e, file=sys.stderr)
+            print("ERROR OCCURRED :", repr(e), file=sys.stderr)
+
+        # Generically clearing any db errors.
+        # Came to here mean if any database error happened, its was not handled their. So in here we clear them so any future db request don't fail just because db error "rollback" didn't happen.
+        db.session.rollback()
 
         # Trying to extract error code. If not possible (For example "Syntax Error in Code itself"), default to 500
         error_code = getattr(e, "code", 500)
 
-        # When "e.get_response() / e.code / Etc..." is possible. (Mostly Syntax Error in Code itself.)
-        if error_code == 500:
-            return api_error(
-                error_code, "Server Error", err_desc="Server Error Occurred."
-            )
-
-        return api_error(
-            e.code,
-            err_msg=e.name,
-            err_desc=e.description,
-        )
-
-    def render_error_page(e):
-        """Render Custom Error Page."""
-
-        if is_development:
-            print("ERROR : ", e, file=sys.stderr)
-
-        # Trying to extract error code. If not possible (For example syntax error in code itself. EXCEPTION), default to 500
-        error_code = getattr(e, "code", 500)
-
-        # Special custom handling for 'api/xxx" endpoints. (Returning JSON error instead of page.)
-        error_occurred_path = request.path
         if error_occurred_path.startswith("/api/"):
-            return handle_exception_as_json(e)
+            # Handle exceptions as JSON.
+            # Handling error occurred in "/api/xxx" endpoints, by sending error as JSON response.
+            # Because those are mostly consumed by third party and they can easily handle errors on "their end" using JSON error.
+            return api_error(err_obj=e)
+        else:
+            # Handle exceptions as web pages.
+            # Handling error occurred in other endpoints, by showing custom error page.
+            return render_template(f"{error_code}.html"), error_code
 
-        return render_template(f"{error_code}.html"), error_code
-
-    # Handling HTTP related exceptions by returning error as JSON response. (Ex. When request body don't have necessary params)
-    # This is mostly applicable to "/api/xxx" endpoints, Because those are mostly consume by third party and they can easily handle errors on "their end" using JSON error.
-    app.errorhandler(HTTPException)(handle_exception_as_json)
-
-    # Handling specific errors with "Custom Error Pages". But note that in "render_error_page" function we customize it for "/api/xxx" path to send "JSON Error" instead of page.
-    for errcode in [401, 404, 500]:  # noqa: WPS335
-        app.errorhandler(errcode)(render_error_page)
-
-    # Any other error that still not catch. (Mostly Syntax Error in Code itself.)
-    app.errorhandler(Exception)(render_error_page)
+    app.errorhandler(Exception)(generic_error_handler)
 
 
 def register_shellcontext(app):
@@ -148,6 +124,7 @@ def register_commands(app):
     """Register custom "Click" CLI commands with Flask CLI."""
 
     app.cli.add_command(flask_custom_commands.test)
+    app.cli.add_command(flask_custom_commands.initdb)
 
 
 def configure_logger(app):

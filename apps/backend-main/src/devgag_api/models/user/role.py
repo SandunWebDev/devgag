@@ -11,7 +11,7 @@ class Role(PkModel):
     __tablename__ = "roles"
     name = Column(db.String(80), unique=True, nullable=False)
     user_id = reference_col("users", nullable=True)
-    user = relationship("User", backref="roles")
+    user = relationship("User", backref="backref__roles")
 
     def __init__(self, name, **kwargs):
         """Create instance."""

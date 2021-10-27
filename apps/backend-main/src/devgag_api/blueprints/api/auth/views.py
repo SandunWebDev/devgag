@@ -173,6 +173,7 @@ def signup():
             400,
             "Provided data are invalid or incomplete.",
             err_meta=err.messages,
+            err_obj=err,
         )
 
     # Checking user already exist.
