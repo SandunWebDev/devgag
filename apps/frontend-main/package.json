@@ -6,21 +6,30 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "lint-prettier": "prettier --check .",
+        "lint-prettier-fix": "prettier --write .",
+        "lint-eslint": "eslint . --quiet ",
+        "lint-eslint-fix": "eslint . --fix --quiet",
+        "lint-stylelint": "stylelint **/*.{css,scss,sass,less}",
+        "lint-stylelint-fix": "stylelint **/*.{css,scss,sass,less} --fix",
+        "lint-all": "npm run lint-prettier && npm run lint-eslint && npm run lint-stylelint",
+        "lint-all-fix": "npm run lint-prettier-fix && npm run lint-eslint-fix && npm run lint-stylelint-fix"
     },
-    "dependencies": {
-        "cra-template": "1.1.2",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "react-scripts": "4.0.3"
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged --concurrent false"
+        }
     },
-    "devDependencies": {
-        "web-vitals": "^2.1.2"
-    },
-    "eslintConfig": {
-        "extends": [
-            "react-app",
-            "react-app/jest"
+    "lint-staged": {
+        "*.+(js|jsx|css|less|scss|graphql|gql|html|json|md|markdown|mdown|mkdn|mdx|ts|tsx|vue|yaml|yml)": [
+            "prettier --write"
+        ],
+        "*.+(js|jsx)": [
+            "eslint --fix'"
+        ],
+        "*.+(css|scss|sass|less)": [
+            "stylelint --fix"
         ]
     },
     "browserslist": {
@@ -34,5 +43,36 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "dependencies": {
+        "cra-template": "1.1.2",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-scripts": "4.0.3"
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^5.14.1",
+        "@testing-library/react": "^12.1.2",
+        "eslint": "^7.32.0",
+        "eslint-config-airbnb": "^18.2.1",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-import": "^2.25.2",
+        "eslint-plugin-json": "^3.1.0",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-promise": "^5.1.1",
+        "eslint-plugin-react": "^7.26.1",
+        "eslint-plugin-react-hooks": "^4.2.0",
+        "eslint-plugin-react-redux": "^3.3.2",
+        "eslint-plugin-sonarjs": "^0.10.0",
+        "eslint-plugin-unicorn": "^37.0.1",
+        "husky": "^7.0.4",
+        "lint-staged": "^11.2.6",
+        "prettier": "^2.4.1",
+        "stylelint": "^14.0.1",
+        "stylelint-config-prettier": "^9.0.3",
+        "stylelint-config-standard": "^23.0.0",
+        "stylelint-order": "^5.0.0",
+        "web-vitals": "^2.1.2"
     }
 }
