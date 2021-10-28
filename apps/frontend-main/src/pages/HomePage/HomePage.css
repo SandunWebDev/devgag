@@ -1,0 +1,12 @@
+.HomePage {
+    margin: 20px;
+    text-align: center;
+}
+
+.HomePage__header img {
+    max-width: 200px;
+}
+
+.HomePage__body img {
+    max-width: 700px;
+}
