@@ -64,6 +64,38 @@ db-migrate-apply = "IS_CUSTOM_FLASK_CMD=True flask db upgrade -d ./database/migr
 # Initial Setup
 initial-setup = "poetry install && npm install && task db-migrate-apply && cd ./scripts/nodejsRunner && npm install"
 
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+line_length = 80
+multi_line_output = 3
+force_single_line = false
+balanced_wrapping = true
+default_section = "THIRDPARTY"
+known_first_party = "devgag_api"
+include_trailing_comma = true
+skip_gitignore=true
+skip_glob = ["database/migrations/*"]
+
+[tool.black]
+line-length = 80
+extend-exclude = "database/migrations/*"
+
+[tool.mypy]
+strict = false
+pretty = true
+show_column_numbers = true
+show_error_codes = true
+show_error_context = true
+ignore_missing_imports=true
+warn_return_any = true
+warn_unused_configs = true
+files=["src", "tests"]
+exclude = "docs"
+
 [tool.poetry.dependencies]
 python = "^3.9"
 
@@ -158,37 +190,5 @@ sphinx-autobuild = "^2021.3.14"
 myst-parser = "^0.15.2"
 
 # Other
-pre-commit = "^2.15.0"
 safety = "^1.10.3"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.isort]
-profile = "black"
-line_length = 80
-multi_line_output = 3
-force_single_line = false
-balanced_wrapping = true
-default_section = "THIRDPARTY"
-known_first_party = "devgag_api"
-include_trailing_comma = true
-skip_gitignore=true
-skip_glob = ["database/migrations/*"]
-
-[tool.black]
-line-length = 80
-extend-exclude = "database/migrations/*"
-
-[tool.mypy]
-strict = false
-pretty = true
-show_column_numbers = true
-show_error_codes = true
-show_error_context = true
-ignore_missing_imports=true
-warn_return_any = true
-warn_unused_configs = true
-files=["src", "tests"]
-exclude = "docs"
+pre-commit = "^2.15.0"
