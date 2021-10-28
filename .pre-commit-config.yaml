@@ -14,6 +14,13 @@ repos:
             files: "apps\/backend-main\\**.*" # Making this hook only run for if there changes in "apps/backend-main" folder.
             verbose: true
 
+          - id: apps/frontend-main
+            name: Code Quality Check for "apps/frontend-main" Project
+            entry: poetry run task code-quality--frontend-main
+            language: system
+            pass_filenames: false
+            files: "apps\/frontend-main\\**.*" # Making this hook only run for if there changes in "apps/frontend-main" folder.
+            verbose: true
     # Prettier
     - repo: https://github.com/pre-commit/mirrors-prettier
       rev: v2.3.0

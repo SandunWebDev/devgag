@@ -8,6 +8,7 @@ authors = ["Sandun <SandunWebDev@gmail.com>"]
 [tool.taskipy.tasks]
 # Code quality checks for each sub project. (Mainly  used for commit hooks and CI/CD)
 code-quality--backend-main = "cd apps/backend-main && . .venv/bin/activate && poetry run task full-code-quality-check"
+code-quality--frontend-main = "cd apps/frontend-main && npm run full-code-quality-check"
 
 # PreCommit Hooks
 precommit-install = "poetry run pre-commit install"
