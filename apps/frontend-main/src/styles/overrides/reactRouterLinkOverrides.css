@@ -1,0 +1,10 @@
+/* Overrides related to "react-router-dom" Package.  */
+
+
+a {
+	color: inherit;
+}
+
+a:hover {
+	color: inherit;
+}

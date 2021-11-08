@@ -19,6 +19,9 @@ module.exports = {
         },
     },
     overrides: [],
+    globals: {
+        log: 'writable', // This is the "logger" defined in "utilities/logger.js"
+    },
     plugins: ['react-redux', 'json'],
     extends: [
         'eslint:recommended',
