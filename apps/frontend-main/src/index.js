@@ -1,14 +1,17 @@
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
+import chakraCustomTheme from './configs/chakraThemeConfig';
 import App from './pages/root/App/App';
+import { GlobalContextProvider } from './reactContexts/globalContextor/globalContextor';
 import reportWebVitals from './reportWebVitals';
 import './utilities/logger';
 import routerHistory from './utilities/routerHistory';
 
+import './configs/fonts';
 import './index.css';
 
 ReactDOM.render(
@@ -26,8 +29,15 @@ ReactDOM.render(
                 pauseOnHover
             />
 
-            <ChakraProvider>
-                <App />
+            {/* Initializing Chakra Light/Dark Mode */}
+            <ColorModeScript
+                initialColorMode={chakraCustomTheme.config.initialColorMode}
+            />
+
+            <ChakraProvider theme={chakraCustomTheme}>
+                <GlobalContextProvider>
+                    <App />
+                </GlobalContextProvider>
             </ChakraProvider>
         </Router>
     </React.StrictMode>,

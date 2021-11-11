@@ -17,6 +17,7 @@ export const routePaths = {
 
     // ****** Feed --> XXX ******
     feed_jokes: { path: `${feedRootBase}/jokes` },
+    feed_rants: { path: `${feedRootBase}/rants` },
 };
 
 // Mapping above "routePath" into custom structure.

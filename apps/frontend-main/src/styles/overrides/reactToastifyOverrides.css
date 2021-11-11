@@ -1,44 +1,49 @@
 /* Overrides related to "react-toastify" Package.  */
 
 .Toastify__toast-container {
-	/* background: #41ac9e; */
+    /* background: #41ac9e; */
 }
 
 .Toastify__toast-container--top-right {
-	border-radius: 10px 0 0 10px;
-	padding: 15px;
-	padding-bottom: 0;
-	padding-right: 0;
-	right: 0;
-	top: 2em;
+    border-radius: 10px 0 0 10px;
+    padding: 15px;
+    padding-bottom: 0;
+    padding-right: 0;
+    right: 0;
+    top: 2em;
 }
 
 .Toastify__toast {
-	border-radius: 4px 0 0 4px;
-	color: rgba(0, 0, 0, 0.699);
-	font-family: 'Cairo', sans-serif;
-	font-size: 0.85em;
-	min-height: 40px;
-	padding: 0 15px;
+    border-radius: 4px 0 0 4px;
+    color: rgb(0 0 0 / 69.9%);
+    font-family: Raleway, sans-serif;
+    font-size: 0.85em;
+    min-height: 40px;
+    padding: 0 15px;
 }
 
 .Toastify__toast--dark {
-	background: #073b4c;
-	color: white;
+    background: #073b4c;
+    color: white;
 }
+
 .Toastify__toast--default {
-	background: #ecf1e7;
+    background: #ecf1e7;
 }
+
 .Toastify__toast--info {
-	background: #66dbff;
+    background: #66dbff;
 }
+
 .Toastify__toast--success {
-	background: #ac0;
+    background: #ac0;
 }
+
 .Toastify__toast--warning {
-	background: #ffd166;
+    background: #ffd166;
 }
+
 .Toastify__toast--error {
-	background: rgb(255, 120, 102);
-	color: rgb(51, 51, 59);
+    background: rgb(255 120 102);
+    color: rgb(51 51 59);
 }
