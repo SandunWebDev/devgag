@@ -1,4 +1,8 @@
-const { NODE_ENV, REACT_APP__BACKEND_MAIN_API___BASEURL } = process.env;
+const {
+    NODE_ENV,
+    REACT_APP__BACKEND_MAIN_API___BASEURL,
+    REACT_APP__BACKEND_MAIN_STATIC___BASEURL,
+} = process.env;
 
 const globalValues = {
     credentials: {
@@ -7,6 +11,7 @@ const globalValues = {
 
     baseURLS: {
         BACKEND_MAIN_API___BASEURL: REACT_APP__BACKEND_MAIN_API___BASEURL,
+        BACKEND_MAIN_STATIC___BASEURL: REACT_APP__BACKEND_MAIN_STATIC___BASEURL,
     },
 
     environment: {
@@ -20,7 +25,10 @@ export default globalValues;
 // *****************************************************************
 // Simple function to notify if critical env values are not passed.
 function checkAllCriticalEnvValuesAvailable() {
-    const criticalEnvValueList = [REACT_APP__BACKEND_MAIN_API___BASEURL];
+    const criticalEnvValueList = [
+        REACT_APP__BACKEND_MAIN_API___BASEURL,
+        REACT_APP__BACKEND_MAIN_STATIC___BASEURL,
+    ];
 
     const isAllCriticalEnvValuesAvailable = criticalEnvValueList.every(
         (envValue) => envValue,

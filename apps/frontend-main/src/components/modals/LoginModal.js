@@ -12,10 +12,13 @@ import {
 import React from 'react';
 import { BiLogIn as BiLogInIcon } from 'react-icons/bi';
 
-import LoginForm from '../../../pages/LoginPage/forms/LoginForm/LoginForm';
+import LoginForm from '../../pages/LoginPage/forms/LoginForm/LoginForm';
 
 export default function LoginModal(props) {
-    const { trigger } = props;
+    const {
+        trigger,
+        modalProps = {}, // Pass props like "isOpen, onClose, onSuccessFn" in  here, If need to manually control the modal.
+    } = props;
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
@@ -38,12 +41,13 @@ export default function LoginModal(props) {
             )}
 
             <Modal
-                isOpen={isOpen}
-                onClose={onClose}
+                isOpen={modalProps.isOpen || isOpen}
+                onClose={modalProps.onCloseClick || onClose}
                 closeOnOverlayClick={false}
                 closeOnEsc={false}
                 isCentered
-                scrollBehavior='inside'>
+                scrollBehavior='inside'
+                {...modalProps}>
                 <ModalOverlay />
                 <ModalContent maxWidth='500px' margin='50px'>
                     <ModalHeader fontSize='md' />
@@ -51,7 +55,15 @@ export default function LoginModal(props) {
                     <ModalBody paddingBottom='20px'>
                         <LoginForm
                             onSuccessFn={() => {
-                                onClose();
+                                // eslint-disable-next-line no-unused-expressions
+                                modalProps.onSuccessFn
+                                    ? modalProps.onSuccessFn()
+                                    : '';
+
+                                // eslint-disable-next-line no-unused-expressions
+                                modalProps.onCloseClick
+                                    ? modalProps.onCloseClick()
+                                    : onClose();
                             }}
                         />
                     </ModalBody>

@@ -60,7 +60,7 @@ export async function getLoggedUserDetails(reqBody = {}, options = {}) {
 
 export async function getAllJokePosts(reqBody = {}, options = {}) {
     try {
-        const { page, per_page, start_date } = reqBody;
+        const { page, per_page = 20, start_date } = reqBody;
 
         const apiReqBody = {
             page,
@@ -80,6 +80,39 @@ export async function getAllJokePosts(reqBody = {}, options = {}) {
         return {
             jokePostList: data,
             meta,
+        };
+    } catch (error) {
+        const errMsg = error.message;
+        const customErrMsg = error.customErrMsg || errMsg;
+
+        log.error(error, { customErrMsg });
+        return Promise.reject(APIError(customErrMsg, error));
+    }
+}
+
+export async function likeOnePost(reqBody = {}, options = {}) {
+    try {
+        const {
+            post_id,
+            like = 1, // Like = 1  AND Unlike = -1
+        } = reqBody;
+
+        const apiReqBody = {
+            post_id,
+            like,
+        };
+
+        const resObj = await axiosBackendMainApiInstance({
+            url: `${backendMainApiServerEndpoints.likeOnePost.path}`,
+            method: 'POST',
+            data: apiReqBody,
+            ...options,
+        });
+
+        const { data } = resObj.data;
+
+        return {
+            updatedPostData: data,
         };
     } catch (error) {
         const errMsg = error.message;

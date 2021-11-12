@@ -27,9 +27,9 @@ import DevGagLogoSvg from '../../assets/svg/devgag_logo.svg';
 import { withGlobalContext } from '../../reactContexts/globalContextor/globalContextor';
 import { routePaths } from '../../routes/routeConstants';
 import { checkIsUserLoggedIn } from '../../utilities/userAuthentication';
+import LoginModal from '../modals/LoginModal';
 import DarkModeToggler from '../widgets/DarkModeToggler/DarkModeToggler';
 
-import LoginModal from './subComponents/LoginModal';
 import UserMenu from './subComponents/UserMenu';
 
 const NAV_ITEMS = [
