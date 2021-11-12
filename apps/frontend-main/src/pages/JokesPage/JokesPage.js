@@ -18,8 +18,7 @@ class JokesPage extends Component {
                     maxWidth='1200px'
                     flexWrap='wrap'
                     margin='0 auto'
-                    paddingTop='50px'
-                >
+                    paddingTop='50px'>
                     <Box maxW='200px' flexBasis='200px'>
                         1
                     </Box>

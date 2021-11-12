@@ -19,7 +19,7 @@ import {
     AiOutlineDislike as AiOutlineDislikeIcon,
 } from 'react-icons/ai';
 
-import LoginModal from '../../../../components/modals/LoginModal';
+import LoginModal from '../../../../components/modals/LoginModal/LoginModal';
 import globalValues from '../../../../configs/globalValues';
 import { checkIsUserLoggedIn } from '../../../../utilities/userAuthentication';
 

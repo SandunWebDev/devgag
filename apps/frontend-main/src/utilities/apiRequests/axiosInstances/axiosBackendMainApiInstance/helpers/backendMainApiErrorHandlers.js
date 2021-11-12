@@ -50,13 +50,14 @@ export function extractBackendMainApiResErrorMsg(response) {
         success = '',
         message = '',
         description = '',
+        data = '',
     } = lodash.isObject(response.data) ? response.data : {};
 
-    const apiErrMsg = message || description;
+    const apiErrMsg = message || description || data;
 
     if (success === false || status === 'fail' || status === 'error') {
         if (apiErrMsg) {
-            return message || description;
+            return apiErrMsg;
         } else {
             return null;
         }

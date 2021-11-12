@@ -35,6 +35,37 @@ export async function loginUser(reqBody = {}, options = {}) {
     }
 }
 
+export async function signupUser(reqBody = {}, options = {}) {
+    try {
+        const { first_name, last_name, email, password } = reqBody;
+
+        const apiReqBody = {
+            first_name,
+            last_name,
+            email,
+            password,
+        };
+
+        const resObj = await axiosBackendMainApiInstance({
+            url: `${backendMainApiServerEndpoints.signupUser.path}`,
+            method: 'POST',
+            data: apiReqBody,
+            ...options,
+        });
+
+        const { data } = resObj.data;
+
+        // Return AccessToken & RefreshToken
+        return data;
+    } catch (error) {
+        const errMsg = error.message;
+        const customErrMsg = error.customErrMsg || errMsg;
+
+        log.error(error, { customErrMsg });
+        return Promise.reject(APIError(customErrMsg, error));
+    }
+}
+
 export async function getLoggedUserDetails(reqBody = {}, options = {}) {
     try {
         const apiReqBody = {};

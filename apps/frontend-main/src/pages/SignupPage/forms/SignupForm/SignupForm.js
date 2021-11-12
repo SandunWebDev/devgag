@@ -4,8 +4,8 @@ import {
     Heading,
     VStack,
     Circle,
-    useColorModeValue,
     Text,
+    useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
 
@@ -13,19 +13,19 @@ import DevGagLogoSvg from '../../../../assets/svg/devgag_logo.svg';
 import { routePaths } from '../../../../routes/routeConstants';
 import routerHistory from '../../../../utilities/routerHistory';
 
-import LoginFormControls from './LoginFormControls';
+import SignupFormControls from './SignupFormControls';
 
-export default function LoginForm(props) {
+export default function SignupForm(props) {
     const {
         onSuccessFn,
         onFailureFn,
         onFooterLinkClick = () => {
-            routerHistory.push(routePaths.auth__signup.path);
+            routerHistory.push(routePaths.auth__login.path);
         },
     } = props;
 
     return (
-        <Box className='LoginForm'>
+        <Box className='SignupForm'>
             <VStack spacing={4}>
                 <Circle
                     bg={useColorModeValue('gray.200', 'gray.300')}
@@ -39,24 +39,24 @@ export default function LoginForm(props) {
                         'myBrand.blue.light',
                         'myBrand.blue.dark',
                     )}>
-                    Login
+                    Signup
                 </Heading>
             </VStack>
 
             <VStack spacing={4} align='stretch' paddingTop='20px'>
-                <LoginFormControls
+                <SignupFormControls
                     onSuccessFn={onSuccessFn}
                     onFailureFn={onFailureFn}
                 />
             </VStack>
 
             <Box marginTop='15px' fontSize='sm' cursor='pointer'>
-                Don't have a Account ?&nbsp;
+                Already Has a Account ?&nbsp;
                 <Text
                     color='blue.700'
                     display='inline'
                     onClick={() => onFooterLinkClick()}>
-                    Signup
+                    Login
                 </Text>
             </Box>
         </Box>

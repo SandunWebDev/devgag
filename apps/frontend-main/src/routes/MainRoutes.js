@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import HomePage from '../pages/HomePage/HomePage';
 import JokesPage from '../pages/JokesPage/JokesPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
+import SignupPage from '../pages/SignupPage/SignupPage';
 import UserAccountPage from '../pages/UserAccountPage/UserAccountPage';
 import routerHistory from '../utilities/routerHistory';
 import { removeUserIfExpired } from '../utilities/userAuthentication';
@@ -17,6 +18,7 @@ routerHistory.listen(() => {
     removeUserIfExpired();
 });
 
+// eslint-disable-next-line no-unused-vars
 const TempPage = ({ pageName = 'Page', children }) => {
     return (
         <div>
@@ -43,7 +45,7 @@ export default class MainRoutes extends Component {
                 </Route>
 
                 <Route path={routePaths.auth__signup.path} exact>
-                    <TempPage pageName='Signup Page' />
+                    <SignupPage />
                 </Route>
 
                 {/* ****** User --> XXX ****** */}

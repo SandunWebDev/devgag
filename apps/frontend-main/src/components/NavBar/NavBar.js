@@ -27,7 +27,7 @@ import DevGagLogoSvg from '../../assets/svg/devgag_logo.svg';
 import { withGlobalContext } from '../../reactContexts/globalContextor/globalContextor';
 import { routePaths } from '../../routes/routeConstants';
 import { checkIsUserLoggedIn } from '../../utilities/userAuthentication';
-import LoginModal from '../modals/LoginModal';
+import LoginModal from '../modals/LoginModal/LoginModal';
 import DarkModeToggler from '../widgets/DarkModeToggler/DarkModeToggler';
 
 import UserMenu from './subComponents/UserMenu';
