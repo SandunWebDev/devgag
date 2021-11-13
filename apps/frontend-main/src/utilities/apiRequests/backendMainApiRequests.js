@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint no-unused-vars: ["warn", { "args": "none" }] */
 
 import { APIError } from '../errorHandlers';
@@ -137,6 +138,59 @@ export async function likeOnePost(reqBody = {}, options = {}) {
             url: `${backendMainApiServerEndpoints.likeOnePost.path}`,
             method: 'POST',
             data: apiReqBody,
+            ...options,
+        });
+
+        const { data } = resObj.data;
+
+        return {
+            updatedPostData: data,
+        };
+    } catch (error) {
+        const errMsg = error.message;
+        const customErrMsg = error.customErrMsg || errMsg;
+
+        log.error(error, { customErrMsg });
+        return Promise.reject(APIError(customErrMsg, error));
+    }
+}
+
+export async function addJokePost(reqBody = {}, options = {}) {
+    try {
+        const {
+            type,
+            title,
+            description,
+            text_joke,
+            text_background,
+            meme_joke_file,
+        } = reqBody;
+
+        const apiReqBody = {
+            type,
+            title,
+            description,
+        };
+
+        if (type === 'TEXT') {
+            apiReqBody.text_joke = text_joke;
+            apiReqBody.text_background = text_background;
+        } else if (type === 'MEME') {
+            // eslint-disable-next-line prefer-destructuring
+            apiReqBody.meme_joke_image = meme_joke_file;
+        }
+
+        // To send data as "multipart/form-data"
+        const formData = new FormData();
+        const reqEntries = Object.entries(apiReqBody);
+        for (const entry of reqEntries) {
+            formData.append(entry[0], entry[1]);
+        }
+
+        const resObj = await axiosBackendMainApiInstance({
+            url: `${backendMainApiServerEndpoints.addJokePost.path}`,
+            method: 'POST',
+            data: formData,
             ...options,
         });
 

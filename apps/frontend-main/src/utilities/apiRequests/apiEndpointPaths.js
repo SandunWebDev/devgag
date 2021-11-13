@@ -9,6 +9,7 @@ const apiEndpointPaths = {
         getLoggedUserDetails: { path: '/user/getme', type: 'POST' },
         getAllJokePosts: { path: `/jokepost/getall`, type: 'POST' },
         likeOnePost: { path: `/jokepost/like`, type: 'POST' },
+        addJokePost: { path: `/jokepost/add`, type: 'POST' },
     },
 };
 

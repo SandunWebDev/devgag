@@ -90,6 +90,7 @@ export default function JokePost(props) {
                             padding='15px'
                             minHeight='200px'
                             whiteSpace='pre-line'
+                            overflowWrap='anywhere'
                             fontSize='1.4rem'
                             fontStyle='italic'
                             fontWeight={500}>

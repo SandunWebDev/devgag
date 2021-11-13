@@ -4,6 +4,7 @@
 import { Flex, Box } from '@chakra-ui/react';
 import React, { Component } from 'react';
 
+import AddJokePostModal from '../../components/modals/AddJokePostModal/AddJokePostModal';
 import NavBar from '../../components/NavBar/NavBar';
 
 import JokePostsFeed from './subComponents/JokePostsFeed/JokePostsFeed';
@@ -26,7 +27,7 @@ class JokesPage extends Component {
                         <JokePostsFeed />
                     </Box>
                     <Box maxW='200px' flexBasis='200px'>
-                        3
+                        <AddJokePostModal />
                     </Box>
                 </Flex>
             </div>
