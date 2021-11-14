@@ -13,6 +13,14 @@ from devgag_api.flask_extensions import csrf_protect, db, marshmallow
 from devgag_api.flask_utils import api_error, api_res
 from devgag_api.models import JokePost, JokePostLike, User
 from devgag_api.schemas import JokePostSchema
+from sqlalchemy.sql import text
+from devgag_api.flask_extensions import db
+from datetime import datetime
+
+from dateutil import parser
+
+import math
+
 
 blueprint = Blueprint(
     "jokepost",
@@ -137,7 +145,6 @@ def add_jokepost():
 
 @blueprint.route("/get", methods=["POST"])
 @csrf_protect.exempt
-@jwt_required()
 def get_jokepost():
     """Getting a JokePost."""
 
@@ -181,7 +188,6 @@ def get_jokepost():
 
 @blueprint.route("/getall", methods=["POST"])
 @csrf_protect.exempt
-@jwt_required()
 def get_all_jokeposts():
     """Getting all JokePosts."""
 
@@ -193,8 +199,15 @@ def get_all_jokeposts():
             "page": marshmallow.Int(allow_none=False, load_default=1),
             "per_page": marshmallow.Int(allow_none=False, load_default=10),
             "start_date": marshmallow.DateTime(
-                allow_none=False, load_default=dt.utcnow()
+                allow_none=False, load_default=dt.utcnow
             ),  # This is needed to make sure page items are consistent, even new items being added later.
+            "trend_type": marshmallow.String(
+                allow_none=False,
+                load_default="GENERAL",
+                validate=validate.OneOf(
+                    ["GENERAL", "HOT", "TRENDING", "FRESH", "FAVORITES"]
+                ),
+            ),
         }
     )
 
@@ -209,18 +222,153 @@ def get_all_jokeposts():
             err_obj=err,
         )
 
+    start_date = parser.parse(parsed_json_body.get("start_date").isoformat())
+
+    # These will ONLY be used If SQLAlchemy ".paginate()" is NOT used.
+    # SIDENOTE : Why we needed manual pagination ?
+    #   Because we couldn't get some queries to work with SQLAlchemy ORM structure. (Need to try more later)
+    #   So for now we are using Raw SQL for those cases. (Ex. For trending_types like HOT, FRESH, Etc...)
+    #   Since with these raw results, we can't use SQLAlchemy ".paginate()" so we are manually doing paginate using LIMIT and OFFSET.
+    #   LIMIT and OFFSET is not good for large dataset. In future need to resolve it.
+    current_page = parsed_json_body.get("page")
+    per_page = parsed_json_body.get("per_page")
+    total_items = None
+    total_pages = None
+
+    # Fetching Post List depending on "Trend Type"
     try:
-        paginator = (
-            JokePost.query.filter(
-                JokePost.created_at <= parsed_json_body.get("start_date"),
+        trend_type = parsed_json_body.get("trend_type")
+        paginator = None
+
+        if trend_type == "GENERAL":
+            paginator = (
+                db.session.query(
+                    JokePost,
+                )
+                .filter(
+                    JokePost.created_at <= start_date,
+                )
+                .order_by(JokePost.created_at.desc())
+                .paginate(
+                    page=parsed_json_body.get("page"),
+                    per_page=parsed_json_body.get("per_page"),
+                    error_out=False,
+                )
             )
-            .order_by(JokePost.created_at.desc())
-            .paginate(
-                page=parsed_json_body.get("page"),
-                per_page=parsed_json_body.get("per_page"),
-                error_out=False,
+        elif (
+            trend_type
+            == "HOT"  # In Simple sense, post with most "Likes+Dislikes" are first.
+        ):
+            baseQuery = f"\
+                        SELECT\
+                            jokeposts.id,\
+                            SUM(case when jpl.like=1 then 1 else 0 end) AS LikeCount,\
+                            SUM(case when jpl.like=-1 then 1 else 0 end) AS DislikeCount,\
+                            SUM(case when jpl.like then 1 else 0 end) AS VoteCount\
+                        FROM jokeposts\
+                            LEFT JOIN jokepost_likes as jpl ON jpl.jokepost_id=jokeposts.id\
+                            LEFT JOIN users ON jokeposts.created_by=users.id\
+                        WHERE\
+                            jokeposts.created_at <= '{start_date}'\
+                        GROUP BY jokeposts.id\
+                        ORDER BY VoteCount DESC"
+
+            totalQuery = db.session.execute(
+                text(f"SELECT COUNT(*) as totalItemCount FROM ({baseQuery})")
+            ).first()
+
+            total_items = totalQuery.totalItemCount
+            total_pages = int(math.ceil(total_items / per_page))
+
+            paginator = db.session.query(JokePost).from_statement(
+                text(
+                    f"{baseQuery}\
+                        LIMIT {per_page} OFFSET {per_page * (current_page - 1)}\
+                    "
+                )
             )
-        )
+        elif (
+            trend_type
+            == "TRENDING"  # In Simple sense, post with most "Likes" are first.
+        ):
+            baseQuery = f"\
+                        SELECT\
+                            jokeposts.id,\
+                            SUM(case when jpl.like=1 then 1 else 0 end) AS LikeCount,\
+                            SUM(case when jpl.like=-1 then 1 else 0 end) AS DislikeCount,\
+                            SUM(case when jpl.like then 1 else 0 end) AS VoteCount\
+                        FROM jokeposts\
+                            LEFT JOIN jokepost_likes as jpl ON jpl.jokepost_id=jokeposts.id\
+                            LEFT JOIN users ON jokeposts.created_by=users.id\
+                        WHERE\
+                            jokeposts.created_at <= '{start_date}'\
+                        GROUP BY jokeposts.id\
+                        ORDER BY LikeCount DESC"
+
+            totalQuery = db.session.execute(
+                text(f"SELECT COUNT(*) as totalItemCount FROM ({baseQuery})")
+            ).first()
+
+            total_items = totalQuery.totalItemCount
+            total_pages = int(math.ceil(total_items / per_page))
+
+            paginator = db.session.query(JokePost).from_statement(
+                text(
+                    f"{baseQuery}\
+                        LIMIT {per_page} OFFSET {per_page * (current_page - 1)}\
+                    "
+                )
+            )
+        elif trend_type == "FRESH":  # In Simple sense, post created today.
+            todayDate = parser.parse(
+                datetime.combine(
+                    datetime.utcnow(), datetime.min.time()
+                ).isoformat()
+            )
+
+            baseQuery = f"\
+                        SELECT\
+                            jokeposts.id\
+                        FROM jokeposts\
+                            LEFT JOIN jokepost_likes as jpl ON jpl.jokepost_id=jokeposts.id\
+                            LEFT JOIN users ON jokeposts.created_by=users.id\
+                        WHERE\
+                            jokeposts.created_at <= '{start_date}' AND\
+                            jokeposts.created_at >= '{todayDate}'\
+                        GROUP BY jokeposts.id\
+                        ORDER BY jokeposts.created_at DESC"
+
+            totalQuery = db.session.execute(
+                text(f"SELECT COUNT(*) as totalItemCount FROM ({baseQuery})")
+            ).first()
+
+            total_items = totalQuery.totalItemCount
+            total_pages = int(math.ceil(total_items / per_page))
+
+            paginator = db.session.query(JokePost).from_statement(
+                text(
+                    f"{baseQuery}\
+                        LIMIT {per_page} OFFSET {per_page * (current_page - 1)}\
+                    "
+                )
+            )
+        elif (
+            trend_type
+            == "FAVORITES"  # Not Implemented Yet. For now just sending empty array.
+        ):
+            paginator = (
+                db.session.query(
+                    JokePost,
+                )
+                .filter(JokePost.id == -1)
+                .order_by(JokePost.created_at.desc())
+                .paginate(
+                    page=parsed_json_body.get("page"),
+                    per_page=parsed_json_body.get("per_page"),
+                    error_out=False,
+                )
+            )
+
     except Exception as err2:
         return api_error(
             400,
@@ -231,15 +379,26 @@ def get_all_jokeposts():
     jokepost_schema = JokePostSchema(
         many=True, exclude=["populated__likeslist"]
     )
-    jokepost_data = jokepost_schema.dump(paginator.items)
+
+    jokepost_data = jokepost_schema.dump(
+        paginator.items if hasattr(paginator, "items") else paginator
+    )
 
     return api_res(
         res_desc="JokePost successfully loaded.",
         res_data=jokepost_data,
         res_meta={
-            "current_page": paginator.page,
-            "total_pages": paginator.pages,
-            "total_items": paginator.total,
+            "current_page": paginator.page
+            if hasattr(paginator, "page")
+            else current_page,
+            #
+            "total_pages": paginator.pages
+            if hasattr(paginator, "pages")
+            else total_pages,
+            #
+            "total_items": paginator.total
+            if hasattr(paginator, "total")
+            else total_items,
         },
     )
 

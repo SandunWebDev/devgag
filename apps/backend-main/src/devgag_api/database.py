@@ -53,7 +53,11 @@ class PkModel(Model):
     __abstract__ = True
     id = Column(db.Integer, primary_key=True)
     created_at = Column(db.DateTime, default=dt.utcnow)
-    updated_at = Column(db.DateTime, default=dt.utcnow, onupdate=dt.utcnow)
+    updated_at = Column(
+        db.DateTime,
+        default=dt.utcnow,
+        onupdate=dt.utcnow,
+    )
 
     @classmethod
     def get_by_id(cls, record_id):

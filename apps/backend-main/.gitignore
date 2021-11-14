@@ -187,4 +187,4 @@ node_modules
 # Static Generator Output
 static/build
 **/static/cache_manifest.json
-**/static/upload_storage
+**/static/uploads

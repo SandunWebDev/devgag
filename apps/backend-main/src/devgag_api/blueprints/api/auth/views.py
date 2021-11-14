@@ -62,6 +62,7 @@ def add_claims_to_access_token(identity):
         # Reserved Claims
         "iss": "DevGag",
         # Additional Data
+        "user_id": identity.id,
         "username": identity.username,
     }
 
@@ -100,7 +101,9 @@ def login():
     user = User.query.filter_by(username=username).first()
 
     if not user:
-        return api_error(401, "Unknown User.")
+        return api_res(
+            res_code=400, res_status="fail", res_desc="Unknown User."
+        )
 
     if not user.check_password(password):
         return api_error(401, "Invalid Password")
@@ -183,8 +186,8 @@ def signup():
     if exist_user:
         return api_res(
             res_status="fail",
-            res_code="403",
-            res_data="A user already exist for this user.",
+            res_code=403,
+            res_data="A user already exist for this email.",
         )
 
     # Creating new user if not exist already.
