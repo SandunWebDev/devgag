@@ -1,3 +1,5 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable react/no-unused-state */
 
 import React, { Component } from 'react';
@@ -6,9 +8,20 @@ import browserStorage from 'store2';
 const defaultContextValues = {
     contextState: {
         currentUser: {},
+        jokesFeedPage: {
+            selectedTrendType: 'GENERAL',
+            selectedGenreType: 'ALL',
+            refreshRefetch: false,
+        },
     },
     contextActions: {
+        // "currentUser" Section
         updateCurrentUserData: () => {},
+
+        // "jokesFeedPage" Section
+        updateSelectedTrendType: () => {},
+        updateSelectedGenreType: () => {},
+        updateRefreshRefetch: () => {},
     },
 };
 
@@ -22,7 +35,7 @@ export class GlobalContextProvider extends Component {
 
         // Getting persisted "Global Context Data" from Local Storage, if available.
         const rawPersistedContextData =
-            browserStorage.get('globalContextPersistedData') || {};
+            browserStorage.get('globalContextPersistedData') || '{}';
         const persistedContextData = JSON.parse(rawPersistedContextData);
 
         this.state = {
@@ -36,6 +49,41 @@ export class GlobalContextProvider extends Component {
     updateCurrentUserData(currentUserData = {}) {
         this.setState({
             currentUser: currentUserData,
+        });
+    }
+
+    updateSelectedTrendType(
+        selectedTrendType = 'GENERAL',
+        callbackFn = () => {},
+    ) {
+        this.setState(
+            {
+                jokesFeedPage: {
+                    ...this.state.jokesFeedPage,
+                    selectedTrendType,
+                },
+            },
+            () => {
+                callbackFn();
+            },
+        );
+    }
+
+    updateSelectedGenreType(selectedGenreType = 'ALL') {
+        this.setState({
+            jokesFeedPage: {
+                ...this.state.jokesFeedPage,
+                selectedGenreType,
+            },
+        });
+    }
+
+    updateRefreshRefetch(shouldRefresh = false) {
+        this.setState({
+            jokesFeedPage: {
+                ...this.state.jokesFeedPage,
+                refreshRefetch: shouldRefresh,
+            },
         });
     }
 
@@ -55,6 +103,13 @@ export class GlobalContextProvider extends Component {
             contextActions: {
                 updateCurrentUserData: (...args) =>
                     this.updateCurrentUserData(...args),
+
+                updateSelectedTrendType: (...args) =>
+                    this.updateSelectedTrendType(...args),
+                updateSelectedGenreType: (...args) =>
+                    this.updateSelectedGenreType(...args),
+                updateRefreshRefetch: (...args) =>
+                    this.updateRefreshRefetch(...args),
             },
         };
 

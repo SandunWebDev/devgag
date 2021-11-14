@@ -92,12 +92,18 @@ export async function getLoggedUserDetails(reqBody = {}, options = {}) {
 
 export async function getAllJokePosts(reqBody = {}, options = {}) {
     try {
-        const { page, per_page = 20, start_date } = reqBody;
+        const {
+            page,
+            per_page = 20,
+            start_date,
+            trend_type = 'GENERAL', // Must be one of: GENERAL, HOT, TRENDING, FRESH, FAVORITES
+        } = reqBody;
 
         const apiReqBody = {
             page,
             per_page,
             start_date,
+            trend_type,
         };
 
         const resObj = await axiosBackendMainApiInstance({

@@ -24,6 +24,7 @@ import {
 } from '@chakra-ui/react';
 
 import DevGagLogoSvg from '../../assets/svg/devgag_logo.svg';
+import chakraCustomTheme from '../../configs/chakraThemeConfig';
 import { withGlobalContext } from '../../reactContexts/globalContextor/globalContextor';
 import { routePaths } from '../../routes/routeConstants';
 import { checkIsUserLoggedIn } from '../../utilities/userAuthentication';
@@ -61,12 +62,12 @@ function NavBar(props) {
     const isUserLogged = checkIsUserLoggedIn();
 
     return (
-        <Box>
+        <Box position='fixed' top={0} width='100%' zIndex='1000'>
             <Flex
                 bg={useColorModeValue('orange.200', 'gray.800')}
                 color={useColorModeValue('gray.600', 'white')}
-                minH='60px'
-                maxH='60px'
+                minH={`${chakraCustomTheme.my.navBar.height}px`}
+                maxH={`${chakraCustomTheme.my.navBar.height}px`}
                 py={{ base: 2 }}
                 px={{ base: 4 }}
                 borderBottom={1}

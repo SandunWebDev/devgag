@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+
 import {
     Modal,
     ModalOverlay,
@@ -23,7 +25,9 @@ export default function AddJokePostModal(props) {
 
     return (
         <div>
-            {trigger || (
+            {trigger ? (
+                <div onClick={() => onOpen()}>{trigger}</div>
+            ) : (
                 <Button
                     display={{ base: 'none', md: 'inline-flex' }}
                     fontSize='sm'

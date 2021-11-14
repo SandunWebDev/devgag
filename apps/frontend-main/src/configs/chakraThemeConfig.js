@@ -86,12 +86,20 @@ const extendThemeStyles = {
     },
 };
 
+// My Own Custom Values (Just for convince.)
+export const myCustomValues = {
+    navBar: {
+        height: 60, // px
+    },
+};
+
 const chakraCustomTheme = extendTheme({
     config,
     breakpoints,
     styles: globalStyles,
     layerStyles: customLayerStylesPacks,
     textStyles: customTextStylesPacks,
+    my: myCustomValues,
     ...extendThemeStyles,
 });
 

@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable unicorn/prefer-spread */
 /* eslint-disable react/sort-comp */
 
@@ -13,8 +14,10 @@ import {
     AlertTitle,
     AlertDescription,
     Button,
+    Box,
 } from '@chakra-ui/react';
 import React, { Component } from 'react';
+import { AiOutlineBuild as AiOutlineBuildIcon } from 'react-icons/ai';
 import { BiRefresh as BiRefreshIcon } from 'react-icons/bi';
 import {
     BsArrowDownSquare as BsArrowDownSquareIcon,
@@ -50,6 +53,9 @@ export default class JokePostsFeed extends Component {
 
         const { startDate, currentPage, totalPages, postList } = this.state;
 
+        const { contextState } = this.props;
+        const { jokesFeedPage } = contextState;
+
         try {
             // Check if there more pages to be fetched.
             if (totalPages !== undefined && currentPage > totalPages) {
@@ -64,6 +70,7 @@ export default class JokePostsFeed extends Component {
                 page: currentPage + 1,
                 per_page: 20,
                 start_date: startDate,
+                trend_type: jokesFeedPage.selectedTrendType, // Must be one of: GENERAL, HOT, TRENDING, FRESH, FAVORITES
             });
 
             this.setState({
@@ -120,13 +127,61 @@ export default class JokePostsFeed extends Component {
         await this.getAllJokePosts();
     }
 
+    getFilteredPostList() {
+        const { postList } = this.state;
+        const { contextState } = this.props;
+        const { selectedGenreType } = contextState.jokesFeedPage;
+
+        switch (selectedGenreType) {
+            case 'TEXT': {
+                return postList.filter((post) => {
+                    return post.type === 'TEXT';
+                });
+            }
+
+            case 'MEME': {
+                return postList.filter((post) => {
+                    return post.type === 'MEME';
+                });
+            }
+
+            case 'ALL':
+            default: {
+                return postList;
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (
+            prevProps.contextState.jokesFeedPage.refreshRefetch !==
+                this.props.contextState.jokesFeedPage.refreshRefetch &&
+            this.props.contextState.jokesFeedPage.refreshRefetch
+        ) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState(
+                {
+                    startDate: new Date().toISOString(),
+                    currentPage: 0,
+                    totalPages: undefined,
+                    postList: [],
+                },
+                () => {
+                    this.getAllJokePosts();
+                    this.props.contextActions.updateRefreshRefetch(false);
+                },
+            );
+        }
+    }
+
     render() {
-        const { isPostFetchError, currentPage, totalPages, postList } =
-            this.state;
+        const { isPostFetchError, currentPage, totalPages } = this.state;
+
+        const filteredPostList = this.getFilteredPostList();
 
         return (
             <InfiniteScroll
-                dataLength={postList.length} // This is important field to render the next data
+                dataLength={filteredPostList.length} // This is important field to render the next data
                 next={async () => await this.getAllJokePosts()}
                 hasMore={currentPage === 0 || currentPage < totalPages}
                 loader={
@@ -180,10 +235,27 @@ export default class JokePostsFeed extends Component {
                 endMessage={
                     <Center marginY='40px'>
                         <VStack>
-                            <Icon as={MdLegendToggleIcon} boxSize={12} />
-                            <Text fontWeight='bold'>
-                                Yay! You have seen it all.
-                            </Text>
+                            {filteredPostList.length > 0 ? (
+                                <Box align='center'>
+                                    <Icon
+                                        as={MdLegendToggleIcon}
+                                        boxSize={12}
+                                    />
+                                    <Text fontWeight='bold'>
+                                        Yay! You have seen it all.
+                                    </Text>
+                                </Box>
+                            ) : (
+                                <Box align='center' marginTop='40px'>
+                                    <Icon
+                                        as={AiOutlineBuildIcon}
+                                        boxSize={12}
+                                    />
+                                    <Text fontWeight='bold'>
+                                        Nothing to Show.
+                                    </Text>
+                                </Box>
+                            )}
                         </VStack>
                     </Center>
                 }
@@ -193,6 +265,9 @@ export default class JokePostsFeed extends Component {
                     this.setState(
                         {
                             startDate: new Date().toISOString(),
+                            currentPage: 0,
+                            totalPages: undefined,
+                            postList: [],
                         },
                         () => {
                             this.getAllJokePosts();
@@ -217,7 +292,7 @@ export default class JokePostsFeed extends Component {
                         </VStack>
                     </Center>
                 }>
-                {postList.map((post) => {
+                {filteredPostList.map((post) => {
                     return (
                         <JokePost
                             post={post}
