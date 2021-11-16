@@ -34,7 +34,7 @@ const UserMenu = (props) => {
                         height='38px'
                         fontWeight='bold'
                         color='gray.800'
-                        bg='blue.400'
+                        bg='white'
                         cursor='pointer'
                         name={loggedUsersName}
                     />
@@ -42,10 +42,12 @@ const UserMenu = (props) => {
             </PopoverTrigger>
 
             <PopoverContent
+                bg='gray.100'
+                border='2px solid'
                 _focus={{ boxShadow: 'none', outline: '0px solid' }}
                 padding='10px'
                 boxShadow='md'>
-                <PopoverArrow />
+                <PopoverArrow bg='gray.100' />
                 {/* <PopoverCloseButton /> */}
 
                 <PopoverHeader fontWeight='bold' borderRadius='md'>
@@ -58,7 +60,12 @@ const UserMenu = (props) => {
                             li: { padding: '8px 5px' },
                             '& li:hover': {
                                 fontWeight: 600,
-                                background: 'blue.200',
+                                background: 'blue.700',
+                                color: 'white',
+                                borderRadius: '5',
+                            },
+                            '& li:hover svg': {
+                                color: 'white',
                             },
                         }}>
                         <ListItem cursor='pointer'>
@@ -78,7 +85,7 @@ const UserMenu = (props) => {
                 </PopoverBody>
                 <PopoverFooter>
                     <Text fontSize='xs' textAlign='right'>
-                        Admin User
+                        {currentUser.username}
                     </Text>
                 </PopoverFooter>
             </PopoverContent>

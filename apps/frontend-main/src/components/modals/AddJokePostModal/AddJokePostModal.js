@@ -52,7 +52,8 @@ export default function AddJokePostModal(props) {
                 isCentered
                 scrollBehavior='inside'
                 {...modalProps}>
-                <ModalOverlay />
+                <ModalOverlay bg='myBrand.modalBackground.light' />
+
                 <ModalContent maxWidth='500px' margin='50px'>
                     <ModalHeader fontSize='md' />
                     <ModalCloseButton />

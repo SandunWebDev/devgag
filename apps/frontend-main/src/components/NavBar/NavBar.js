@@ -22,11 +22,13 @@ import {
     useBreakpointValue,
     useDisclosure,
 } from '@chakra-ui/react';
+import { SiBuzzfeed as SiBuzzfeedIcon } from 'react-icons/si';
 
-import DevGagLogoSvg from '../../assets/svg/devgag_logo.svg';
+import DevGagLogoWithoutTextSvg from '../../assets/svg/devgag_logo_without_text.svg';
 import chakraCustomTheme from '../../configs/chakraThemeConfig';
 import { withGlobalContext } from '../../reactContexts/globalContextor/globalContextor';
 import { routePaths } from '../../routes/routeConstants';
+import routerHistory from '../../utilities/routerHistory';
 import { checkIsUserLoggedIn } from '../../utilities/userAuthentication';
 import LoginModal from '../modals/LoginModal/LoginModal';
 import DarkModeToggler from '../widgets/DarkModeToggler/DarkModeToggler';
@@ -35,24 +37,25 @@ import UserMenu from './subComponents/UserMenu';
 
 const NAV_ITEMS = [
     {
-        label: 'Feeds',
+        label: 'FEEDS',
+        icon: SiBuzzfeedIcon,
         children: [
             {
                 label: 'Joke Posts',
-                subLabel: 'Trending Joke Posts',
+                subLabel: 'Explore Joke Posts',
                 href: routePaths.feed_jokes.path,
             },
             {
                 label: 'Rant Posts',
-                subLabel: 'Trending Rant Posts',
+                subLabel: 'Coming Soon',
                 href: routePaths.feed_rants.path,
             },
         ],
     },
-    {
-        label: 'About',
-        href: '#',
-    },
+    // {
+    //     label: 'About',
+    //     href: '#',
+    // },
 ];
 
 function NavBar(props) {
@@ -64,7 +67,7 @@ function NavBar(props) {
     return (
         <Box position='fixed' top={0} width='100%' zIndex='1000'>
             <Flex
-                bg={useColorModeValue('orange.200', 'gray.800')}
+                bg={useColorModeValue('blue.800', 'gray.800')}
                 color={useColorModeValue('gray.600', 'white')}
                 minH={`${chakraCustomTheme.my.navBar.height}px`}
                 maxH={`${chakraCustomTheme.my.navBar.height}px`}
@@ -98,10 +101,17 @@ function NavBar(props) {
                     flex={{ base: 1 }}
                     justify={{ base: 'center', md: 'start' }}
                     align='center'>
-                    <Flex align='center'>
+                    <Flex
+                        borderRight='2px solid #ffffff19'
+                        paddingRight='30px'
+                        align='center'
+                        cursor='pointer'
+                        onClick={() =>
+                            routerHistory.push(routePaths.root.path)
+                        }>
                         <Square>
                             <Image
-                                src={DevGagLogoSvg}
+                                src={DevGagLogoWithoutTextSvg}
                                 alt='DevGag Logo'
                                 height='50px'
                             />
@@ -114,7 +124,7 @@ function NavBar(props) {
                             })}
                             fontFamily='heading'
                             fontSize='xl'
-                            color={useColorModeValue('gray.800', 'white')}>
+                            color={useColorModeValue('gray.100', 'white')}>
                             DevGag
                         </Text>
                     </Flex>
@@ -132,7 +142,14 @@ function NavBar(props) {
                     align='center'
                     direction='row'
                     spacing={3}>
-                    <DarkModeToggler />
+                    <DarkModeToggler
+                        variant='ghost'
+                        color='white'
+                        _hover={{
+                            background: 'gray.200',
+                            color: 'black',
+                        }}
+                    />
 
                     {isUserLogged ? (
                         <UserMenu
@@ -158,8 +175,8 @@ function NavBar(props) {
 export default withGlobalContext(NavBar);
 
 const DesktopNav = () => {
-    const linkColor = useColorModeValue('gray.600', 'gray.200');
-    const linkHoverColor = useColorModeValue('gray.800', 'white');
+    const linkColor = useColorModeValue('gray.100', 'gray.200');
+    const linkHoverColor = useColorModeValue('gray.300', 'white');
     const popoverContentBgColor = useColorModeValue('white', 'gray.800');
 
     return (
@@ -171,14 +188,22 @@ const DesktopNav = () => {
                             <Link
                                 p={2}
                                 href={navItem.href ?? '#'}
-                                fontSize='sm'
-                                fontWeight={500}
+                                fontSize='1rem'
+                                fontWeight={600}
                                 color={linkColor}
                                 _hover={{
                                     textDecoration: 'none',
                                     color: linkHoverColor,
                                 }}>
-                                {navItem.label}
+                                <Flex align='center'>
+                                    <Icon
+                                        as={SiBuzzfeedIcon}
+                                        marginRight='5px'
+                                        marginTop='-3px'
+                                        fontSize='16px'
+                                    />
+                                    <Text>{navItem.label}</Text>
+                                </Flex>
                             </Link>
                         </PopoverTrigger>
 
@@ -215,13 +240,13 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
             display='block'
             p={2}
             rounded='md'
-            _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}>
+            _hover={{ bg: useColorModeValue('blue.50', 'gray.900') }}>
             <Stack direction='row' align='center'>
                 <Box>
                     <Text
                         transition='all .3s ease'
-                        _groupHover={{ color: 'pink.400' }}
-                        fontWeight={500}>
+                        _groupHover={{ color: 'blue.400' }}
+                        fontWeight={600}>
                         {label}
                     </Text>
                     <Text fontSize='sm'>{subLabel}</Text>
@@ -238,7 +263,7 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
                     justify='flex-end'
                     align='center'
                     flex={1}>
-                    <Icon color='pink.400' w={5} h={5} as={ChevronRightIcon} />
+                    <Icon color='blue.400' w={5} h={5} as={ChevronRightIcon} />
                 </Flex>
             </Stack>
         </Link>

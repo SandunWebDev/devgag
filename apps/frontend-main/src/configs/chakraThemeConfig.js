@@ -27,6 +27,12 @@ const globalStyles = {
             fontSize: '14px',
             bg: mode('white', 'gray.800')(props), // Similar to props.colorMode === "dark" ? darkMode : lightMode
         },
+
+        // Removing Chakra's default focus outline from every element.
+        '*:focus': {
+            boxShadow: 'none !important',
+            outline: '0 solid  !important',
+        },
     }),
 };
 
@@ -75,8 +81,12 @@ const extendThemeStyles = {
         // Example Usage  <Box bg="myBrand.blue.light">Welcome</Box>
         myBrand: {
             blue: { light: '#2475C0', dark: 'white' },
-            pageBackground: { light: '#e6ccb2', dark: '#1A202C' },
+            pageBackground: { light: '#073b4c', dark: '#1A202C' },
             containerBackground: { light: '#F8F8F8', dark: '#4A5568' },
+            modalBackground: {
+                light: 'rgba(0, 0, 0, 0.85)',
+                dark: 'rgba(0, 0, 0, 0.85)',
+            },
         },
     },
     fonts: {

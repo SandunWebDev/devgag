@@ -36,12 +36,12 @@ export default function LoginModal(props) {
                     display={{ base: 'none', md: 'inline-flex' }}
                     fontSize='sm'
                     fontWeight={600}
-                    color='white'
-                    bg='blue.400'
+                    color='black'
+                    bg='blue.100'
                     href='#'
                     leftIcon={<Icon as={BiLogInIcon} />}
                     _hover={{
-                        bg: 'blue.500',
+                        bg: 'blue.200',
                     }}
                     onClick={() => onOpen()}>
                     Login
@@ -50,13 +50,21 @@ export default function LoginModal(props) {
 
             <Modal
                 isOpen={modalProps.isOpen || isOpen}
-                onClose={modalProps.onCloseClick || onClose}
+                onClose={() => {
+                    setFormType('LOGIN');
+
+                    // eslint-disable-next-line no-unused-expressions
+                    modalProps.onCloseClick
+                        ? modalProps.onCloseClick()
+                        : onClose();
+                }}
                 closeOnOverlayClick={false}
                 closeOnEsc={false}
                 isCentered
                 scrollBehavior='inside'
                 {...modalProps}>
-                <ModalOverlay />
+                <ModalOverlay bg='myBrand.modalBackground.light' />
+
                 <ModalContent maxWidth='500px' margin='50px'>
                     <ModalHeader fontSize='md' />
                     <ModalCloseButton />

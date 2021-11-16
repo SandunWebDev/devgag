@@ -113,7 +113,7 @@ const SidebarContent = ({
                             ? '4px solid'
                             : ''
                     }
-                    borderColor='gray.500'
+                    borderColor='blue.600'
                     onClick={() => {
                         updateSelectedTrendType(link.name.toUpperCase(), () => {
                             updateRefreshRefetch(true);
@@ -137,7 +137,7 @@ const NavItem = ({ icon, children, ...rest }) => {
                 role='group'
                 cursor='pointer'
                 _hover={{
-                    bg: 'cyan.400',
+                    bg: 'blue.700',
                     color: 'white',
                 }}
                 {...rest}>

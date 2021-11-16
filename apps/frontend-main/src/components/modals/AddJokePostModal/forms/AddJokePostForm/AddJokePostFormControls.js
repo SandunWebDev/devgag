@@ -19,6 +19,7 @@ import {
 import { Formik, Form, Field } from 'formik';
 import React, { Component } from 'react';
 import { BiMessageAltAdd as BiMessageAltAddIcon } from 'react-icons/bi';
+import { BsImage as BsImageIcon } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
@@ -270,6 +271,8 @@ class AddJokePostFormControls extends Component {
                                                         placeholder='Meme Image'
                                                         type='file'
                                                         accept='image/*'
+                                                        id='AddJokePostMemeImageUploader--FileInput'
+                                                        display='none'
                                                         onChange={(event) => {
                                                             formikProps.setFieldValue(
                                                                 'memeJoke',
@@ -279,6 +282,34 @@ class AddJokePostFormControls extends Component {
                                                             );
                                                         }}
                                                     />
+
+                                                    <Button
+                                                        fontSize='sm'
+                                                        fontWeight='500'
+                                                        maxWidth='100%'
+                                                        overflow='hidden'
+                                                        justifyContent='flex-start'
+                                                        marginBottom='15px'
+                                                        leftIcon={
+                                                            <Icon
+                                                                as={BsImageIcon}
+                                                            />
+                                                        }
+                                                        onClick={() => {
+                                                            // NOTE : Toggling File Input.
+                                                            // 	- Doing this way because styling "FileInput" is hard.
+                                                            document
+                                                                .querySelector(
+                                                                    '#AddJokePostMemeImageUploader--FileInput',
+                                                                )
+                                                                .click();
+                                                        }}>
+                                                        Select Image
+                                                        {formikProps.values
+                                                            .memeJoke
+                                                            ? ` (${formikProps.values.memeJoke[0].name})`
+                                                            : ''}
+                                                    </Button>
 
                                                     <FormErrorMessage>
                                                         {

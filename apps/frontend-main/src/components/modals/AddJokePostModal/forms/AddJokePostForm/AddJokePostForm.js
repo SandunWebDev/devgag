@@ -1,6 +1,5 @@
 import {
     Box,
-    Image,
     Heading,
     VStack,
     HStack,
@@ -8,8 +7,7 @@ import {
     useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
-
-import DevGagLogoSvg from '../../../../../assets/svg/devgag_logo.svg';
+import { MdAddReaction as MdAddReactionIcon } from 'react-icons/md';
 
 import AddJokePostFormControls from './AddJokePostFormControls';
 
@@ -22,8 +20,9 @@ export default function AddJokePostForm(props) {
                 <Circle
                     bg={useColorModeValue('gray.200', 'gray.300')}
                     padding='10px'>
-                    <Image src={DevGagLogoSvg} boxSize='25px' />
+                    <MdAddReactionIcon fontSize='25px' />
                 </Circle>
+
                 <Heading
                     fontSize='1.5rem'
                     color={useColorModeValue(

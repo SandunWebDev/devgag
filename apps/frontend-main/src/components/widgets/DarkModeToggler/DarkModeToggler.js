@@ -2,7 +2,7 @@ import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { useColorMode, IconButton } from '@chakra-ui/react';
 import React from 'react';
 
-export default function DarkModeToggler() {
+export default function DarkModeToggler(props) {
     const { colorMode, toggleColorMode } = useColorMode();
 
     const selectedModeIcon = colorMode === 'light' ? <SunIcon /> : <MoonIcon />;
@@ -14,6 +14,7 @@ export default function DarkModeToggler() {
             icon={selectedModeIcon}
             onClick={toggleColorMode}
             title={selectedModeTooltip}
+            {...props}
         />
     );
 }

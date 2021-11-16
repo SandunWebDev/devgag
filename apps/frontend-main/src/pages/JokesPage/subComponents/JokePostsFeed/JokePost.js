@@ -38,7 +38,7 @@ export default function JokePost(props) {
     const createdUser = post.populated__created_by;
     const createdUserName = `${createdUser.first_name} ${createdUser.last_name}`;
 
-    const createdDate = DateTime.fromISO(post.created_at).toLocaleString(
+    const createdDate = DateTime.fromISO(`${post.created_at}Z`).toLocaleString(
         DateTime.DATETIME_MED,
     );
 
@@ -75,7 +75,14 @@ export default function JokePost(props) {
                 rounded='md'
                 p={6}
                 overflow='hidden'>
-                <Box bg='gray.100' mt={-6} mx={-6} mb={6} pos='relative'>
+                <Box
+                    bg='gray.100'
+                    mt={-6}
+                    mx={-6}
+                    mb={6}
+                    pos='relative'
+                    borderBottom='1px solid'
+                    borderBottomColor='gray.100'>
                     {postType === 'MEME' ? (
                         <Image
                             src={`${basePath}/${post.meme_joke}`}
