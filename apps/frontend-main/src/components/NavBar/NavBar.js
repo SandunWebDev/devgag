@@ -67,7 +67,7 @@ function NavBar(props) {
     return (
         <Box position='fixed' top={0} width='100%' zIndex='1000'>
             <Flex
-                bg={useColorModeValue('blue.800', 'gray.800')}
+                bg={useColorModeValue('blue.800', 'gray.900')}
                 color={useColorModeValue('gray.600', 'white')}
                 minH={`${chakraCustomTheme.my.navBar.height}px`}
                 maxH={`${chakraCustomTheme.my.navBar.height}px`}
@@ -93,6 +93,11 @@ function NavBar(props) {
                         }
                         variant='ghost'
                         aria-label='Toggle Mobile Menu'
+                        color={useColorModeValue('white', 'white')}
+                        _hover={{
+                            bg: useColorModeValue('white', 'gray.600'),
+                            color: useColorModeValue('gray.900', 'white'),
+                        }}
                     />
                 </Flex>
 
@@ -102,7 +107,10 @@ function NavBar(props) {
                     justify={{ base: 'center', md: 'start' }}
                     align='center'>
                     <Flex
-                        borderRight='2px solid #ffffff19'
+                        borderRight={{
+                            base: 'none',
+                            md: '2px solid #ffffff19',
+                        }}
                         paddingRight='30px'
                         align='center'
                         cursor='pointer'
@@ -144,10 +152,10 @@ function NavBar(props) {
                     spacing={3}>
                     <DarkModeToggler
                         variant='ghost'
-                        color='white'
+                        color={useColorModeValue('white', 'white')}
                         _hover={{
-                            background: 'gray.200',
-                            color: 'black',
+                            bg: useColorModeValue('white', 'gray.600'),
+                            color: useColorModeValue('gray.900', 'white'),
                         }}
                     />
 
@@ -177,7 +185,7 @@ export default withGlobalContext(NavBar);
 const DesktopNav = () => {
     const linkColor = useColorModeValue('gray.100', 'gray.200');
     const linkHoverColor = useColorModeValue('gray.300', 'white');
-    const popoverContentBgColor = useColorModeValue('white', 'gray.800');
+    const popoverContentBgColor = useColorModeValue('white', 'gray.700');
 
     return (
         <Stack direction='row' spacing={4}>
@@ -272,17 +280,19 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
 
 const MobileNav = () => {
     return (
-        <Stack
-            bg={useColorModeValue('gray.100', 'gray.800')}
-            p={4}
-            display={{ md: 'none' }}
-            position='absolute'
-            left={0}
-            right={0}>
-            {NAV_ITEMS.map((navItem) => (
-                <MobileNavItem key={navItem.label} {...navItem} />
-            ))}
-        </Stack>
+        <Box bg={useColorModeValue('gray.100', 'gray.700')} minHeight='100vh'>
+            <Stack
+                bg={useColorModeValue('gray.300', 'gray.800')}
+                p={4}
+                display={{ md: 'none' }}
+                position='absolute'
+                left={0}
+                right={0}>
+                {NAV_ITEMS.map((navItem) => (
+                    <MobileNavItem key={navItem.label} {...navItem} />
+                ))}
+            </Stack>
+        </Box>
     );
 };
 
@@ -323,10 +333,11 @@ const MobileNavItem = ({ label, children, href }) => {
                 style={{ marginTop: '0!important' }}>
                 <Stack
                     mt={2}
+                    ml={4}
                     pl={4}
-                    borderLeft={1}
+                    borderLeft={useColorModeValue(2, 4)}
                     borderStyle='solid'
-                    borderColor={useColorModeValue('gray.200', 'gray.700')}
+                    borderColor={useColorModeValue('gray.500', 'gray.700')}
                     align='start'>
                     {children &&
                         children.map((child) => (

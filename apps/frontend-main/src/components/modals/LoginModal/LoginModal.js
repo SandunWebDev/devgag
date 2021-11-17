@@ -33,15 +33,14 @@ export default function LoginModal(props) {
                 <div onClick={() => onOpen()}>{trigger}</div>
             ) : (
                 <Button
-                    display={{ base: 'none', md: 'inline-flex' }}
                     fontSize='sm'
                     fontWeight={600}
-                    color='black'
-                    bg='blue.100'
+                    color='white'
+                    bg='blue.600'
                     href='#'
                     leftIcon={<Icon as={BiLogInIcon} />}
                     _hover={{
-                        bg: 'blue.200',
+                        bg: 'blue.700',
                     }}
                     onClick={() => onOpen()}>
                     Login

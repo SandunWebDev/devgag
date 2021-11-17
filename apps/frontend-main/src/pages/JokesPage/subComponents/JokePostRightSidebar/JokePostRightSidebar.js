@@ -1,12 +1,20 @@
+/* eslint-disable sonarjs/no-all-duplicated-branches */
+
 import { PlusSquareIcon, TriangleUpIcon, RepeatIcon } from '@chakra-ui/icons';
 import {
     Box,
     Flex,
     useColorModeValue,
+    useColorMode,
     Divider,
     ButtonGroup,
     Button,
     VStack,
+    Accordion,
+    AccordionItem,
+    AccordionButton,
+    AccordionPanel,
+    AccordionIcon,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
@@ -27,13 +35,14 @@ export default function JokePostRightSidebar(props) {
     return (
         <Box
             position='fixed'
+            transform={{ base: 'translateY(50px)', xl: 'translateY(0px)' }}
             paddingLeft='15px'
             paddingTop='15px'
             borderLeft='2px solid black'
             borderLeftColor={useColorModeValue('gray.200', 'gray.700')}
             minHeight='100%'
             width='100%'
-            maxWidth='200px'>
+            maxWidth={{ base: '100%', xl: '200px' }}>
             {/* Modals */}
             <Box>
                 <LoginModal
@@ -61,40 +70,163 @@ export default function JokePostRightSidebar(props) {
                 />
             </Box>
 
-            {/* Content */}
+            <Box
+                bg={useColorModeValue('white', 'gray.800')}
+                width='100%'
+                pos='absolute'
+                padding='10px'
+                left={0}
+                paddingBottom='30px'
+                display={{ base: 'block', xl: 'none' }}>
+                <Accordion allowToggle>
+                    <AccordionItem>
+                        <h2>
+                            <AccordionButton
+                                bg={useColorModeValue('gray.200', 'gray.800')}
+                                _hover={{
+                                    bg: useColorModeValue(
+                                        'gray.300',
+                                        'gray.700',
+                                    ),
+                                }}>
+                                <Box
+                                    flex='1'
+                                    textAlign='left'
+                                    fontWeight='bold'>
+                                    OPTIONS
+                                </Box>
+                                <AccordionIcon />
+                            </AccordionButton>
+                        </h2>
+                        <AccordionPanel
+                            pb={4}
+                            bg={useColorModeValue('white', 'gray.800')}
+                            paddingTop='15px'
+                            border='1px solid'
+                            borderColor={useColorModeValue(
+                                'gray.300',
+                                'gray.600',
+                            )}>
+                            <Flex justify='center'>
+                                <Box maxWidth='400px' width='100%'>
+                                    <SidebarContent
+                                        selectedGenreType={selectedGenreType}
+                                        updateSelectedGenreType={
+                                            updateSelectedGenreType
+                                        }
+                                        setAddPostModalState={
+                                            setAddPostModalState
+                                        }
+                                        setLoginModalState={setLoginModalState}
+                                        updateRefreshRefetch={
+                                            updateRefreshRefetch
+                                        }
+                                    />
+                                </Box>
+                            </Flex>
+                        </AccordionPanel>
+                    </AccordionItem>
+                </Accordion>
+            </Box>
+
+            {/* On Desktop Resolutions */}
+            <Box display={{ base: 'none', xl: 'block' }}>
+                <SidebarContent
+                    selectedGenreType={selectedGenreType}
+                    updateSelectedGenreType={updateSelectedGenreType}
+                    setAddPostModalState={setAddPostModalState}
+                    setLoginModalState={setLoginModalState}
+                    updateRefreshRefetch={updateRefreshRefetch}
+                />
+            </Box>
+        </Box>
+    );
+}
+
+const SidebarContent = (props) => {
+    const {
+        selectedGenreType,
+        updateSelectedGenreType,
+        setAddPostModalState,
+        setLoginModalState,
+        updateRefreshRefetch,
+    } = props;
+
+    const { colorMode } = useColorMode();
+
+    const btnGroupSelectedBgColor =
+        colorMode === 'light' ? 'blue.700' : 'blue.600';
+    const btnGroupSelectedFontColor = colorMode === 'light' ? 'white' : 'white';
+
+    const btnGroupUnselectedBgColor =
+        colorMode === 'light' ? 'white' : 'transparent';
+    const btnGroupUnselectedFontColor =
+        colorMode === 'light' ? 'gray.900' : 'white';
+
+    return (
+        <Box>
             <Box marginBottom='40px'>
                 <Flex
                     align='center'
                     justify='center'
                     marginBottom='15px'
                     fontSize='sm'>
-                    <Box fontWeight='bold' color='blue.600'>
+                    <Box
+                        fontWeight='bold'
+                        color={useColorModeValue('blue.600', 'white')}>
                         FILTERS
                     </Box>
-                    <Divider marginLeft='10px' />
+                    <Divider
+                        marginLeft='10px'
+                        borderColor={useColorModeValue('gray.400', 'gray.100')}
+                    />
                 </Flex>
 
                 <ButtonGroup variant='outline' spacing={0} isAttached>
                     <Button
                         fontSize='sm'
-                        bg={selectedGenreType === 'ALL' ? 'blue.700' : ''}
-                        color={selectedGenreType === 'ALL' ? 'white' : 'black'}
+                        bg={
+                            selectedGenreType === 'ALL'
+                                ? btnGroupSelectedBgColor
+                                : btnGroupUnselectedBgColor
+                        }
+                        color={
+                            selectedGenreType === 'ALL'
+                                ? btnGroupSelectedFontColor
+                                : btnGroupUnselectedFontColor
+                        }
                         _hover={{ color: 'black', bg: 'gray.300' }}
                         onClick={() => updateSelectedGenreType('ALL')}>
                         ALL
                     </Button>
                     <Button
                         fontSize='sm'
-                        bg={selectedGenreType === 'TEXT' ? 'blue.700' : ''}
-                        color={selectedGenreType === 'TEXT' ? 'white' : 'black'}
+                        bg={
+                            selectedGenreType === 'TEXT'
+                                ? btnGroupSelectedBgColor
+                                : btnGroupUnselectedBgColor
+                        }
+                        color={
+                            selectedGenreType === 'TEXT'
+                                ? btnGroupSelectedFontColor
+                                : btnGroupUnselectedFontColor
+                        }
                         _hover={{ color: 'black', bg: 'gray.300' }}
                         onClick={() => updateSelectedGenreType('TEXT')}>
                         TEXT
                     </Button>
                     <Button
                         fontSize='sm'
-                        bg={selectedGenreType === 'MEME' ? 'blue.700' : ''}
-                        color={selectedGenreType === 'MEME' ? 'white' : 'black'}
+                        bg={
+                            selectedGenreType === 'MEME'
+                                ? btnGroupSelectedBgColor
+                                : btnGroupUnselectedBgColor
+                        }
+                        color={
+                            selectedGenreType === 'MEME'
+                                ? btnGroupSelectedFontColor
+                                : btnGroupUnselectedFontColor
+                        }
                         _hover={{ color: 'black', bg: 'gray.300' }}
                         onClick={() => updateSelectedGenreType('MEME')}>
                         MEME
@@ -108,16 +240,25 @@ export default function JokePostRightSidebar(props) {
                     justify='center'
                     marginBottom='15px'
                     fontSize='sm'>
-                    <Box fontWeight='bold' color='blue.600'>
+                    <Box
+                        fontWeight='bold'
+                        color={useColorModeValue('blue.600', 'white')}>
                         NEW&nbsp;POST
                     </Box>
-                    <Divider marginLeft='10px' />
+                    <Divider
+                        marginLeft='10px'
+                        borderColor={useColorModeValue('gray.400', 'gray.100')}
+                    />
                 </Flex>
 
                 <Button
                     isFullWidth
-                    colorScheme='facebook'
+                    bg={useColorModeValue('blue.700', 'blue.600')}
                     color='white'
+                    _hover={{
+                        background: useColorModeValue('blue.800', 'gray.300'),
+                        color: useColorModeValue('white', 'gray.900'),
+                    }}
                     fontSize='sm'
                     leftIcon={<PlusSquareIcon />}
                     onClick={() => {
@@ -137,10 +278,15 @@ export default function JokePostRightSidebar(props) {
                     justify='center'
                     marginBottom='15px'
                     fontSize='sm'>
-                    <Box fontWeight='bold' color='blue.600'>
+                    <Box
+                        fontWeight='bold'
+                        color={useColorModeValue('blue.600', 'white')}>
                         ACTIONS
                     </Box>
-                    <Divider marginLeft='10px' />
+                    <Divider
+                        marginLeft='10px'
+                        borderColor={useColorModeValue('gray.400', 'gray.100')}
+                    />
                 </Flex>
 
                 <VStack align='left'>
@@ -167,4 +313,4 @@ export default function JokePostRightSidebar(props) {
             </Box>
         </Box>
     );
-}
+};

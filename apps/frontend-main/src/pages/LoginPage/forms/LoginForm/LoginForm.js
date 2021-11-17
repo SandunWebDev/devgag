@@ -51,9 +51,9 @@ export default function LoginForm(props) {
             </VStack>
 
             <Box marginTop='15px' fontSize='sm' cursor='pointer'>
-                Don't have a Account ?&nbsp;
+                Don&apos;t have a Account?&nbsp;
                 <Text
-                    color='blue.700'
+                    color={useColorModeValue('blue.700', 'blue.100')}
                     display='inline'
                     onClick={() => onFooterLinkClick()}>
                     Signup

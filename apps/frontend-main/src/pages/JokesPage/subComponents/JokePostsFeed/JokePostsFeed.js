@@ -181,6 +181,7 @@ export default class JokePostsFeed extends Component {
 
         return (
             <InfiniteScroll
+                width='100%'
                 dataLength={filteredPostList.length} // This is important field to render the next data
                 next={async () => await this.getAllJokePosts()}
                 hasMore={currentPage === 0 || currentPage < totalPages}

@@ -10,12 +10,12 @@
     padding-bottom: 0;
     padding-right: 0;
     right: 0;
-    top: 2em;
+    top: 4em;
 }
 
 .Toastify__toast {
     border-radius: 4px 0 0 4px;
-    color: rgb(0 0 0 / 69.9%);
+    color: rgb(0 0 0 / 89.9%);
     font-family: Raleway, sans-serif;
     font-size: 0.85em;
     min-height: 40px;
@@ -36,7 +36,7 @@
 }
 
 .Toastify__toast--success {
-    background: #ac0;
+    background: rgb(200 240 0);
 }
 
 .Toastify__toast--warning {

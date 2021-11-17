@@ -4,7 +4,7 @@ import { createBreakpoints, mode } from '@chakra-ui/theme-tools';
 // Overall Configs.
 const config = {
     // Dark/Light Mode related configs. (See https://chakra-ui.com/docs/features/color-mode)
-    initialColorMode: 'dark',
+    initialColorMode: 'light',
     useSystemColorMode: false,
 
     // Prefixing Chakra generated styles/classnames. (See https://chakra-ui.com/docs/theming/theme#config)

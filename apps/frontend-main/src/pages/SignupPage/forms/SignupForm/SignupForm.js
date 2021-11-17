@@ -53,7 +53,7 @@ export default function SignupForm(props) {
             <Box marginTop='15px' fontSize='sm' cursor='pointer'>
                 Already Has a Account ?&nbsp;
                 <Text
-                    color='blue.700'
+                    color={useColorModeValue('blue.700', 'blue.100')}
                     display='inline'
                     onClick={() => onFooterLinkClick()}>
                     Login

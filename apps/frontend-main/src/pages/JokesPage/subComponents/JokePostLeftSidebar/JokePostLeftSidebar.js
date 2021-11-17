@@ -40,11 +40,11 @@ export default function JokePostLeftSidebar(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
-        <Box bg={useColorModeValue('gray.100', 'gray.900')}>
+        <Box className='JokePostLeftSidebar'>
             {/* On Desktop Resolutions */}
             <SidebarContent
                 onClose={() => onClose}
-                display={{ base: 'none', md: 'block' }}
+                display={{ base: 'none', xl: 'block' }}
                 selectedTrendType={selectedTrendType}
                 updateSelectedTrendType={updateSelectedTrendType}
                 updateRefreshRefetch={updateRefreshRefetch}
@@ -59,12 +59,17 @@ export default function JokePostLeftSidebar(props) {
                 returnFocusOnClose={false}
                 onOverlayClick={onClose}
                 size='full'>
-                <DrawerContent>
-                    <SidebarContent onClose={onClose} />
+                <DrawerContent bg={useColorModeValue('white', 'gray.800')}>
+                    <SidebarContent
+                        onClose={onClose}
+                        selectedTrendType={selectedTrendType}
+                        updateSelectedTrendType={updateSelectedTrendType}
+                        updateRefreshRefetch={updateRefreshRefetch}
+                    />
                 </DrawerContent>
             </Drawer>
 
-            <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
+            <MobileNav display={{ base: 'flex', xl: 'none' }} onOpen={onOpen} />
         </Box>
     );
 }
@@ -78,10 +83,10 @@ const SidebarContent = ({
 }) => {
     return (
         <Box
-            bg={useColorModeValue('white', 'gray.900')}
+            className='leftMenu'
             borderRight='1px'
             borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-            w={{ base: 'full', md: 60 }}
+            w={{ base: 'full', xl: 60 }}
             pos='fixed'
             h='full'
             {...rest}>
@@ -99,7 +104,7 @@ const SidebarContent = ({
                     JOKES
                 </Text>
                 <CloseButton
-                    display={{ base: 'flex', md: 'none' }}
+                    display={{ base: 'flex', xl: 'none' }}
                     onClick={onClose}
                 />
             </Flex>
@@ -160,11 +165,13 @@ const NavItem = ({ icon, children, ...rest }) => {
 const MobileNav = ({ onOpen, ...rest }) => {
     return (
         <Flex
-            ml={{ base: 0, md: 60 }}
-            px={{ base: 4, md: 24 }}
+            pos='fixed'
+            width='100%'
+            ml={{ base: 0, xl: 60 }}
+            px={{ base: 4, xl: 24 }}
             height='20'
             alignItems='center'
-            bg={useColorModeValue('white', 'gray.900')}
+            bg={useColorModeValue('white', 'gray.800')}
             borderBottomWidth='1px'
             borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
             justifyContent='flex-start'
@@ -177,11 +184,12 @@ const MobileNav = ({ onOpen, ...rest }) => {
             />
 
             <Text
+                ml='10px'
                 fontSize='2xl'
-                ml='8'
                 fontFamily='monospace'
-                fontWeight='bold'>
-                Logo
+                fontWeight='bold'
+                color='blue.500'>
+                JOKES
             </Text>
         </Flex>
     );
