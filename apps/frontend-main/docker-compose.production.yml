@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  devgag-frontend-main--server:
+    build:
+      context: .
+      # Building all the way down to prod. stage.
+      target: prod
+    image: devgag-frontend-main--server--prod_image
+    container_name: devgag-frontend-main--server--prod_container
+    ports:
+      - "80:3000"

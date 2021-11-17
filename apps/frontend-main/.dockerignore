@@ -1,0 +1,32 @@
+# Git Files
+.git
+
+# Dockerfiles
+*Dockerfile*
+*docker-compose*
+
+# testing
+/coverage
+.nyc_output
+
+# production
+/build
+/storybook-static
+
+# Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# misc
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vscode
+
+# env Files
+# Pushing .env file beacuse on "Prouction Build" this files is needed.
+# We don't have to worry becaus final final production build image (Nginx) will not have this file.
+!.env

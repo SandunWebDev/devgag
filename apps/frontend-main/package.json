@@ -18,7 +18,14 @@
         "lint-stylelint-fix": "stylelint **/*.{css,scss,sass,less} --fix",
         "lint-all": "npm run lint-prettier && npm run lint-eslint && npm run lint-stylelint",
         "lint-all-fix": "npm run lint-prettier-fix && npm run lint-eslint-fix && npm run lint-stylelint-fix",
-        "full-code-quality-check": "npm run lint-all && npm run test-ci"
+        "full-code-quality-check": "npm run lint-all && npm run test-ci",
+        "docker-development": "docker-compose -f docker-compose.yml -f docker-compose.development.yml up --remove-orphans",
+        "docker-development-stop": "docker-compose -f docker-compose.yml -f docker-compose.development.yml down -v",
+        "docker-development-build": "docker-compose -f docker-compose.yml -f docker-compose.development.yml up --remove-orphans --build",
+        "docker-development-shell": "docker-compose -f docker-compose.yml -f docker-compose.development.yml run --rm devgag-backend-main--server bash",
+        "docker-production": "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans",
+        "docker-production-build": "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans --build",
+        "deploy-heroku": "heroku container:push web -a devgag-frontend-main && heroku container:release web -a devgag-frontend-main"
     },
     "browserslist": {
         "production": [

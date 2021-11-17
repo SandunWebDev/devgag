@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  devgag-frontend-main--server:
+    environment:
+      # Getting env. variable directly from host enviroment OR .env file and pass them into container.
+      # These are not available in the build process. Only running containers get these.(We have to pass as "args" if want to available in "Dockerfile Build" process too.)
+      - NODE_ENV
+
+# Custom volume to store database data premenetly.
+volumes:
+  ? frontendTempData # For holding container's node_modules without clashing with host node_modules. (See docker-compose.dev.yml)
