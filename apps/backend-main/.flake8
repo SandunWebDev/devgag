@@ -104,5 +104,6 @@ per-file-ignores =
     src/devgag_api/schemas/*py: D106                    # Missing docstrings in public classess
     src/devgag_api/flask_utils.py: WPS232               # Too much cognitive complexity.
     src/devgag_api/blueprints/api/*.py : WPS212, C901   # Too many returns / Too complex
-    autoapp.py: WPS453, S104                            # It's a executable file, But there isn't a shebang / Binding Port to All Hosts
+    autoapp.py: WPS453, S104                            # It's a executable file, But there isn't a shebang / Binding Port to All
+    src/devgag_api/blueprints/api/jokepost/views.py: WPS232, WPS231, C901, S608, WPS212, WPS355
     NOTEXIST.py: XXX

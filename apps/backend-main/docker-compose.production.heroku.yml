@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  devgag-backend-main--server:
+    build:
+      target: production
+      dockerfile: Dockerfile.heroku
+    ports:
+      - '80:5001' # NginX Port
+    image: devgag-backend-main--server--prod_heroku_image
+    container_name: devgag-backend-main--server--prod_heroku_container
+    command: ./docker/scripts/starter-production.heroku.sh
+
+    environment:
+      - FLASK_ENV=production
+
+    volumes:
+      - dbdata:/app/database # Storing database data permanently.

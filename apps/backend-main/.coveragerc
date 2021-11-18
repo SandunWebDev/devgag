@@ -17,7 +17,7 @@ omit =
 show_missing = true
 ignore_errors= true
 precision = 2
-fail_under = 75
+fail_under = 50
 
 [coverage:html]
 directory = build/coverage/html_report

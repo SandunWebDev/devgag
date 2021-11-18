@@ -55,6 +55,9 @@ docker-development-build = "docker-compose -f docker-compose.yml -f docker-compo
 docker-development-shell = "docker-compose -f docker-compose.yml -f docker-compose.development.yml run --rm devgag-backend-main--server bash"
 docker-production = "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans"
 docker-production-build = "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans --build"
+docker-production-heroku-build = "docker-compose -f docker-compose.yml -f docker-compose.production.heroku.yml build && docker tag devgag-backend-main--server--prod_heroku_image registry.heroku.com/devgag-backend-main/web"
+deploy-heroku = "task docker-production-heroku-build && docker push registry.heroku.com/devgag-backend-main/web && heroku container:release web -a devgag-backend-main"
+
 
 # Database Migrations
 db-migrate-init = "IS_CUSTOM_FLASK_CMD=True flask db init -d ./database/migrations"
@@ -141,6 +144,7 @@ supervisor = "^4.2.2"
 environs = "^9.3.4"
 livereload = "2.5.1" # This is needed in prod dependecy list, Just because autoapp.py import this. By the way, Also notice that we are using older version here beacuse issue of "https://github.com/lepture/python-livereload/issues/170".
 pydash = "^5.1.0"
+python-dateutil = "^2.8.2"
 
 
 [tool.poetry.dev-dependencies]
@@ -161,12 +165,12 @@ flake8-docstrings = "^1.6.0"
 flake8-isort = "^4.0.0"
 flake8-pytest-style = "^1.5.0"
 flake8-string-format = "^0.3.0"
-flake8-SQL = "^0.4.1"
 flake8-tidy-imports = "^4.4.1"
 flake8-variables-names = "^0.0.4"
 pep8-naming = "^0.12.1"
 wps-light = "^0.15.3"
 dlint = "^0.11.0"
+# flake8-SQL = "^0.4.1" (Removed due to conflicts with some Raw SQL)
 
 # Testing
 pytest = "^5.2"

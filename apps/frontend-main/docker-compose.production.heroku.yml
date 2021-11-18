@@ -4,9 +4,11 @@ services:
     devgag-frontend-main--server:
         build:
             context: .
+            dockerfile: Dockerfile.heroku
             # Building all the way down to prod. stage.
             target: prod
-        image: devgag-frontend-main--server--prod_image
+        # NOTE: 'registry.heroku.com/devgag-frontend-main/web" is just a tag, that will be  used from heroku deployement. (npm run docker-heroku)
+        image: devgag-frontend-main--server--prod_heroku_image
         container_name: devgag-frontend-main--server--prod_container
         ports:
             - '80:3000'

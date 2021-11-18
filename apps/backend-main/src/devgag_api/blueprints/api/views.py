@@ -1,3 +1,5 @@
+#  type: ignore
+
 """API Views."""
 
 from pathlib import Path

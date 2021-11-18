@@ -25,7 +25,8 @@
         "docker-development-shell": "docker-compose -f docker-compose.yml -f docker-compose.development.yml run --rm devgag-backend-main--server bash",
         "docker-production": "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans",
         "docker-production-build": "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans --build",
-        "deploy-heroku": "heroku container:push web -a devgag-frontend-main && heroku container:release web -a devgag-frontend-main"
+        "docker-production-heroku-build": "docker-compose -f docker-compose.yml -f docker-compose.production.heroku.yml build && docker tag devgag-frontend-main--server--prod_heroku_image registry.heroku.com/devgag-frontend-main/web",
+        "deploy-heroku": "npm run docker-production-heroku-build && docker push registry.heroku.com/devgag-frontend-main/web && heroku container:release web"
     },
     "browserslist": {
         "production": [
@@ -48,7 +49,7 @@
                 "branches": 0,
                 "functions": 0,
                 "lines": 0,
-                "statements": -100
+                "statements": -1000
             }
         }
     },

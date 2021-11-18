@@ -1,26 +1,24 @@
+#  type: ignore
+
 """API JokePost Views."""
 
+import math
 import mimetypes
 import uuid
+from datetime import datetime
 from datetime import datetime as dt
 from pathlib import Path
 
+from dateutil import parser
 from flask import Blueprint, current_app, request
 from flask_jwt_extended import current_user, jwt_required
 from marshmallow import EXCLUDE, ValidationError, validate
+from sqlalchemy.sql import text
 
 from devgag_api.flask_extensions import csrf_protect, db, marshmallow
 from devgag_api.flask_utils import api_error, api_res
 from devgag_api.models import JokePost, JokePostLike, User
 from devgag_api.schemas import JokePostSchema
-from sqlalchemy.sql import text
-from devgag_api.flask_extensions import db
-from datetime import datetime
-
-from dateutil import parser
-
-import math
-
 
 blueprint = Blueprint(
     "jokepost",
@@ -259,7 +257,7 @@ def get_all_jokeposts():
             trend_type
             == "HOT"  # In Simple sense, post with most "Likes+Dislikes" are first.
         ):
-            baseQuery = f"\
+            base_query = f"\
                         SELECT\
                             jokeposts.id,\
                             SUM(case when jpl.like=1 then 1 else 0 end) AS LikeCount,\
@@ -273,16 +271,16 @@ def get_all_jokeposts():
                         GROUP BY jokeposts.id\
                         ORDER BY VoteCount DESC"
 
-            totalQuery = db.session.execute(
-                text(f"SELECT COUNT(*) as totalItemCount FROM ({baseQuery})")
+            total_query = db.session.execute(
+                text(f"SELECT COUNT(*) as totalItemCount FROM ({base_query})")
             ).first()
 
-            total_items = totalQuery.totalItemCount
+            total_items = total_query.totalItemCount
             total_pages = int(math.ceil(total_items / per_page))
 
             paginator = db.session.query(JokePost).from_statement(
                 text(
-                    f"{baseQuery}\
+                    f"{base_query}\
                         LIMIT {per_page} OFFSET {per_page * (current_page - 1)}\
                     "
                 )
@@ -291,7 +289,7 @@ def get_all_jokeposts():
             trend_type
             == "TRENDING"  # In Simple sense, post with most "Likes" are first.
         ):
-            baseQuery = f"\
+            base_query = f"\
                         SELECT\
                             jokeposts.id,\
                             SUM(case when jpl.like=1 then 1 else 0 end) AS LikeCount,\
@@ -305,28 +303,28 @@ def get_all_jokeposts():
                         GROUP BY jokeposts.id\
                         ORDER BY LikeCount DESC"
 
-            totalQuery = db.session.execute(
-                text(f"SELECT COUNT(*) as totalItemCount FROM ({baseQuery})")
+            total_query = db.session.execute(
+                text(f"SELECT COUNT(*) as totalItemCount FROM ({base_query})")
             ).first()
 
-            total_items = totalQuery.totalItemCount
+            total_items = total_query.totalItemCount
             total_pages = int(math.ceil(total_items / per_page))
 
             paginator = db.session.query(JokePost).from_statement(
                 text(
-                    f"{baseQuery}\
+                    f"{base_query}\
                         LIMIT {per_page} OFFSET {per_page * (current_page - 1)}\
                     "
                 )
             )
         elif trend_type == "FRESH":  # In Simple sense, post created today.
-            todayDate = parser.parse(
+            today_date = parser.parse(
                 datetime.combine(
                     datetime.utcnow(), datetime.min.time()
                 ).isoformat()
             )
 
-            baseQuery = f"\
+            base_query = f"\
                         SELECT\
                             jokeposts.id\
                         FROM jokeposts\
@@ -334,20 +332,20 @@ def get_all_jokeposts():
                             LEFT JOIN users ON jokeposts.created_by=users.id\
                         WHERE\
                             jokeposts.created_at <= '{start_date}' AND\
-                            jokeposts.created_at >= '{todayDate}'\
+                            jokeposts.created_at >= '{today_date}'\
                         GROUP BY jokeposts.id\
                         ORDER BY jokeposts.created_at DESC"
 
-            totalQuery = db.session.execute(
-                text(f"SELECT COUNT(*) as totalItemCount FROM ({baseQuery})")
+            total_query = db.session.execute(
+                text(f"SELECT COUNT(*) as totalItemCount FROM ({base_query})")
             ).first()
 
-            total_items = totalQuery.totalItemCount
+            total_items = total_query.totalItemCount
             total_pages = int(math.ceil(total_items / per_page))
 
             paginator = db.session.query(JokePost).from_statement(
                 text(
-                    f"{baseQuery}\
+                    f"{base_query}\
                         LIMIT {per_page} OFFSET {per_page * (current_page - 1)}\
                     "
                 )
@@ -391,11 +389,11 @@ def get_all_jokeposts():
             "current_page": paginator.page
             if hasattr(paginator, "page")
             else current_page,
-            #
+            # --
             "total_pages": paginator.pages
             if hasattr(paginator, "pages")
             else total_pages,
-            #
+            # --
             "total_items": paginator.total
             if hasattr(paginator, "total")
             else total_items,

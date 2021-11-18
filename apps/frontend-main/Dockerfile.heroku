@@ -1,8 +1,7 @@
 # NOTE :  This is same as "Dockerfile". Only difference is bottom two lines (COPY & CMD) commands.
-#         We use this to deploy to Heroku.
-#             - heroku container:push web -a devgag-frontend-main
-#             - heroku container:release web -a devgag-frontend-main
-#         By the way keep in mind to deploy backend first and fill ".env" with relevant values to that.
+#         We use this file to deploy to Heroku. Run below command to start the process.
+#             - npm run deploy:heroku
+#         By the way keep in mind to deploy backend first and fill frontend ".env" with relevant production values.
 
 # ******************************************* BUILD STAGE 1 - Base Dependencies *******************************************
 # Loading official Node image as base image (Insetead of lean alpine version) because we need build tools for run modules like webpack.

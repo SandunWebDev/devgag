@@ -36,11 +36,15 @@ htmlcov/
 build
 docs/build
 
+# -------------- Custom --------------
+
 # Static Generator Output
 static/build
+static/uploads
 **/static/cache_manifest.json
 
-# -------------- Custom --------------
+# SQLite Databases
+*.db
 
 # Not ignoring, Beacuse this file is used by some development tools. (Ex. Black)
 !.gitignore
