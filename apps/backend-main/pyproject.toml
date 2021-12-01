@@ -63,6 +63,7 @@ deploy-heroku = "task docker-production-heroku-build && docker push registry.her
 db-migrate-init = "IS_CUSTOM_FLASK_CMD=True flask db init -d ./database/migrations"
 db-migrate-genMigrations = "IS_CUSTOM_FLASK_CMD=True flask db migrate -d ./database/migrations" # If Schema changed, Run this.
 db-migrate-apply = "IS_CUSTOM_FLASK_CMD=True flask db upgrade -d ./database/migrations" # If Schema changed OR It's initial db setup, Run this.
+db-initial-seeddata-apply = "python ./database/initial_data_adder/initial_data_adder.py" # Add some initial seed data to db, if necessary.
 
 # Initial Setup
 initial-setup = "poetry install && npm install && task db-migrate-apply && cd ./scripts/nodejsRunner && npm install"
@@ -145,6 +146,7 @@ environs = "^9.3.4"
 livereload = "2.5.1" # This is needed in prod dependecy list, Just because autoapp.py import this. By the way, Also notice that we are using older version here beacuse issue of "https://github.com/lepture/python-livereload/issues/170".
 pydash = "^5.1.0"
 python-dateutil = "^2.8.2"
+Faker = "^9.9.0"
 
 
 [tool.poetry.dev-dependencies]

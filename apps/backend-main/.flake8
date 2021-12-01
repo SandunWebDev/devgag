@@ -106,4 +106,6 @@ per-file-ignores =
     src/devgag_api/blueprints/api/*.py : WPS212, C901   # Too many returns / Too complex
     autoapp.py: WPS453, S104                            # It's a executable file, But there isn't a shebang / Binding Port to All
     src/devgag_api/blueprints/api/jokepost/views.py: WPS232, WPS231, C901, S608, WPS212, WPS355
+    database/initial_data_adder/initial_data_adder.py: DUO102, S311,
+    database/initial_data_adder/helpers.py: WPS100, WPS400
     NOTEXIST.py: XXX
