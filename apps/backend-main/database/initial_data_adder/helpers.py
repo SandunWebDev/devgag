@@ -78,11 +78,11 @@ def copy_meme_image(src_file_name=None):
 
 
 # Creating lot of initial users which will be used to create initial posts and likes on them.
-def create_user_set():
+def create_user_set(no_of_users=100):
     try:
         created_user_ids = []
 
-        for i in range(1, 100):
+        for i in range(1, no_of_users):
             # Making faker randomness is predictable.
             fake.seed_instance(i * 1000)
 

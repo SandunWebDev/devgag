@@ -184,8 +184,9 @@ COPY --from=artifacts-builder /app/src/devgag_api/static /app/src/devgag_api/sta
 # All "Production Packages" are already installed. But In here we are just running to install "Our Source Code Package" itself as dependency, which is prevented in previous stages using "--no-root"
 RUN poetry install --no-dev
 
-# Applying Migrations to Database
-RUN poetry run task db-migrate-apply
+# Applying Migrations and Some Intial Seed Date to Database
+# Note that since on herou we are using PostgresSQL, we delete existing "migrations" folder (Since its for SQLite) and regenrate things for PostgresSQL.
+RUN rm -fdr ./database/migrations && rm -fdr ./database/dev.db && poetry run task db-migrate-init && poetry run task db-migrate-genMigrations && poetry run task db-migrate-apply && poetry run task db-initial-seeddata-apply
 
 EXPOSE $PRODUCTION_EXPOSE_PORT
 

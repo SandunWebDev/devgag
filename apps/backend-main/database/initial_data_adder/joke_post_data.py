@@ -511,6 +511,11 @@ text_jokes = [
     },
 ]
 
+
+# NOTE : Due to "heroku" is not precisting data, Currently we use "direct_link_base_path" key value as workaround.
+#        It just a workaround until we deploy things on presisting server like AWS VM.
+
+direct_link_base_path = "https://raw.githubusercontent.com/SandunWebDev/devgag/development/apps/backend-main/database/initial_data_adder/meme_images/"
 meme_jokes = [
     {
         "type": "MEME",

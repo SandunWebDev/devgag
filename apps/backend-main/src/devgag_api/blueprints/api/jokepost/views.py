@@ -262,7 +262,7 @@ def get_all_jokeposts():
                             jokeposts.id,\
                             SUM(case when jpl.like=1 then 1 else 0 end) AS LikeCount,\
                             SUM(case when jpl.like=-1 then 1 else 0 end) AS DislikeCount,\
-                            SUM(case when jpl.like then 1 else 0 end) AS VoteCount\
+                            SUM(case when jpl.like>-1 then 1 else 0 end) AS VoteCount\
                         FROM jokeposts\
                             LEFT JOIN jokepost_likes as jpl ON jpl.jokepost_id=jokeposts.id\
                             LEFT JOIN users ON jokeposts.created_by=users.id\
@@ -272,7 +272,9 @@ def get_all_jokeposts():
                         ORDER BY VoteCount DESC"
 
             total_query = db.session.execute(
-                text(f"SELECT COUNT(*) as totalItemCount FROM ({base_query})")
+                text(
+                    f'SELECT COUNT(*) as "totalItemCount" FROM ({base_query}) AS subQ'
+                )
             ).first()
 
             total_items = total_query.totalItemCount
@@ -294,7 +296,7 @@ def get_all_jokeposts():
                             jokeposts.id,\
                             SUM(case when jpl.like=1 then 1 else 0 end) AS LikeCount,\
                             SUM(case when jpl.like=-1 then 1 else 0 end) AS DislikeCount,\
-                            SUM(case when jpl.like then 1 else 0 end) AS VoteCount\
+                            SUM(case when jpl.like>-1 then 1 else 0 end) AS VoteCount\
                         FROM jokeposts\
                             LEFT JOIN jokepost_likes as jpl ON jpl.jokepost_id=jokeposts.id\
                             LEFT JOIN users ON jokeposts.created_by=users.id\
@@ -304,7 +306,9 @@ def get_all_jokeposts():
                         ORDER BY LikeCount DESC"
 
             total_query = db.session.execute(
-                text(f"SELECT COUNT(*) as totalItemCount FROM ({base_query})")
+                text(
+                    f'SELECT COUNT(*) as "totalItemCount" FROM ({base_query}) AS subQ'
+                )
             ).first()
 
             total_items = total_query.totalItemCount
@@ -337,7 +341,9 @@ def get_all_jokeposts():
                         ORDER BY jokeposts.created_at DESC"
 
             total_query = db.session.execute(
-                text(f"SELECT COUNT(*) as totalItemCount FROM ({base_query})")
+                text(
+                    f'SELECT COUNT(*) as "totalItemCount" FROM ({base_query}) AS subQ'
+                )
             ).first()
 
             total_items = total_query.totalItemCount

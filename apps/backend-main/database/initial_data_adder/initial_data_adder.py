@@ -7,7 +7,7 @@ from datetime import datetime as dt
 from faker import Faker
 from faker.providers import date_time, person
 from helpers import copy_meme_image, create_user_set
-from joke_post_data import meme_jokes, text_jokes
+from joke_post_data import meme_jokes, text_jokes, direct_link_base_path
 
 from devgag_api.app import create_app
 from devgag_api.models import JokePost, JokePostLike
@@ -23,7 +23,7 @@ with app.app_context():
     jokes = text_jokes + meme_jokes
 
     # Creating multiple users, Which will be used to create posts and add likes in here.
-    user_id_list = create_user_set()
+    user_id_list = create_user_set(100)
 
     # Created post's id will be updated in here.
     created_post_id_list = []
@@ -46,8 +46,14 @@ with app.app_context():
 
         # Copying MemeJoke's images into relevant upload folder.
         if post_type == "MEME":
-            db_meme_joke_image_path = copy_meme_image(post["meme_joke"])
-            mutated_post["meme_joke"] = db_meme_joke_image_path
+            # IMPORTANT NOTE : Until we deploy on a persistent server, We use workaround, which just directly use github uploaded link.
+            mutated_post["meme_joke"] = (
+                direct_link_base_path + post["meme_joke"]
+            )
+
+            # When on presisting server enable below codes instead of above.
+            # db_meme_joke_image_path = copy_meme_image(post["meme_joke"])
+            # mutated_post["meme_joke"] = db_meme_joke_image_path
 
         created_post = JokePost.create(**mutated_post)
         created_post_id_list.append(created_post.id)
