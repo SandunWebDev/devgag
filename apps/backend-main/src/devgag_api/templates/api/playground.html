@@ -5,7 +5,15 @@
   <hr />
   <br />
 
-  <a href="{{ url_for('api.hello', name='SANDUN', no_of_times=2) }}">Hello API</a>
-  </p>
+  <p>NOTE: Not Full List. Work in Progress.</p>
+
+  <ul>
+    <li>
+      <a href="{{ url_for('api.playground.hello', name='GOOGLE', no_of_times=2) }}"
+        style='color:rgb(30, 59, 78); text-decoration: none;'>Hello
+        API <small>(/api/playground/hello/[TEXT]/[TIMES])</small></a>
+      </p>
+    </li>
+  </ul>
 </div>
 {% endblock %}

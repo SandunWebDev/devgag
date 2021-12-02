@@ -1,0 +1,39 @@
+/* Simple class to hide things temporally, Until backend UI is seriously created. */
+.HIDE-THIS {
+    display: none;
+}
+
+/* Body Layout */
+.bodyLayout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.bodyLayout__content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Footer */
+.footer {
+    background: #2a4365;
+    display: flex;
+    color: white;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.footer ul {
+    text-align: center;
+    list-style-type: none;
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
+}

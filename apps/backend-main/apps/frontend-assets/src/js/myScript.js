@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 // App initialization code goes here.
 
-console.log('Hello World');
+console.log('DevGag Backend');
