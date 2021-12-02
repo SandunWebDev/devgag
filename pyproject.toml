@@ -15,7 +15,7 @@ precommit-install = "poetry run pre-commit install"
 precommit-runinall = "poetry run pre-commit run --all-files"
 
 # Initial Setup
-initial-setup = "poetry install && task precommit-install && cd apps/backend-main && . .venv/bin/activate && poetry run task initial-setup"
+initial-setup = "poetry install && task precommit-install && cd apps/backend-main && . .venv/bin/activate && poetry run task initial-setup && cd ../frontend-main && npm install"
 
 [virtualenvs]
 create = true
