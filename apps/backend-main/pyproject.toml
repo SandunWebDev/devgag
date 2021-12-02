@@ -36,7 +36,7 @@ lint-black-fix = "poetry run black ./"
 lint-flake8 = "poetry run flake8"
 lint-mypy = "poetry run mypy"
 lint-pyright = "cd ./scripts/nodejsRunner && npm run typecheck-pyright" # Optional Static Type Checker
-lint-safety = "poetry run safety check --ignore 40459" # Notice ignoring certain package unitl they are patched. (Check Regulary)
+lint-safety = "poetry run safety check --ignore 40459 --ignore 42852" # Notice ignoring certain package unitl they are patched. (Check Regulary)
 lint-all = "task lint-isort && task lint-black && task lint-flake8 && task lint-mypy && task lint-safety"
 lint-all-fix = "task lint-isort-fix && task lint-black-fix && task lint-flake8 && task lint-mypy && task lint-safety"
 
@@ -55,8 +55,8 @@ docker-development-build = "docker-compose -f docker-compose.yml -f docker-compo
 docker-development-shell = "docker-compose -f docker-compose.yml -f docker-compose.development.yml run --rm devgag-backend-main--server bash"
 docker-production = "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans"
 docker-production-build = "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans --build"
-docker-production-heroku-build = "docker-compose -f docker-compose.yml -f docker-compose.production.heroku.yml build && docker tag devgag-backend-main--server--prod_heroku_image registry.heroku.com/devgag-backend-main/web"
-deploy-heroku = "task docker-production-heroku-build && docker push registry.heroku.com/devgag-backend-main/web && heroku container:release web -a devgag-backend-main"
+docker-production-heroku-build = "docker-compose -f docker-compose.yml -f docker-compose.production.heroku.yml build && docker tag devgag-backend-main--server--prod_heroku_image registry.heroku.com/devgag-backend/web"
+deploy-heroku = "task docker-production-heroku-build && docker push registry.heroku.com/devgag-backend/web && heroku container:release web -a devgag-backend"
 
 
 # Database Migrations

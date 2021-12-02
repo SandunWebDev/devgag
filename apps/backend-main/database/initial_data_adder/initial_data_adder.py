@@ -7,7 +7,7 @@ from datetime import datetime as dt
 from faker import Faker
 from faker.providers import date_time, person
 from helpers import copy_meme_image, create_user_set
-from joke_post_data import meme_jokes, text_jokes, direct_link_base_path
+from joke_post_data import direct_link_base_path, meme_jokes, text_jokes
 
 from devgag_api.app import create_app
 from devgag_api.models import JokePost, JokePostLike

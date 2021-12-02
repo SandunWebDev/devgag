@@ -1,4 +1,4 @@
-# NOTE :  This is same as "Dockerfile". Only difference is bottom "production" stage's some lines commands.
+# NOTE :  This is same as "Dockerfile". But there is some differences.
 #         We use this file to deploy to Heroku. Run below command to start the process.
 #             - poetry run task deploy:heroku
 #         By the way keep in mind to fill ".env" with relevant production values before start deploy process.
@@ -102,7 +102,7 @@ COPY . .
 RUN poetry install
 
 # Applying Migrations to Database
-RUN poetry run task db-migrate-apply
+# RUN poetry run task db-migrate-apply
 
 EXPOSE $DEVELOPMENT_EXPOSE_PORT
 ENTRYPOINT ./docker/scripts/docker_entrypoint.sh $0 $@
@@ -184,9 +184,11 @@ COPY --from=artifacts-builder /app/src/devgag_api/static /app/src/devgag_api/sta
 # All "Production Packages" are already installed. But In here we are just running to install "Our Source Code Package" itself as dependency, which is prevented in previous stages using "--no-root"
 RUN poetry install --no-dev
 
-# Applying Migrations and Some Intial Seed Date to Database
+# Applying Migrations.
 # Note that since on herou we are using PostgresSQL, we delete existing "migrations" folder (Since its for SQLite) and regenrate things for PostgresSQL.
-RUN rm -fdr ./database/migrations && rm -fdr ./database/dev.db && poetry run task db-migrate-init && poetry run task db-migrate-genMigrations && poetry run task db-migrate-apply && poetry run task db-initial-seeddata-apply
+# SIDE NOTE : Run "poetry run task db-migrate-init && poetry run task db-migrate-genMigrations && poetry run task db-migrate-apply" manually, if Database is in Mint Condition. (We can go into heroku container by "heroku run bash -a devgag-backend")
+#             Also run "poetry run task db-initial-seeddata-apply", Only if need to fill database with initial data.
+RUN rm -fdr ./database/migrations && rm -fdr ./database/dev.db
 
 EXPOSE $PRODUCTION_EXPOSE_PORT
 
