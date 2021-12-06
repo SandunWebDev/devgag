@@ -40,7 +40,7 @@ export default function JokePostRightSidebar(props) {
             paddingTop='15px'
             borderLeft='2px solid black'
             borderLeftColor={useColorModeValue('gray.200', 'gray.700')}
-            minHeight='100%'
+            minHeight={{ base: 'auto', xl: '100%' }}
             width='100%'
             maxWidth={{ base: '100%', xl: '200px' }}>
             {/* Modals */}

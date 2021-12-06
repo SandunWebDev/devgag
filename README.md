@@ -2,27 +2,12 @@
 
 DevGag is a WebApp where users can explore and add "Dev Jokes". (Both Textual and Meme Type) This full-stack project is mainly powered by **Python, Flask & React**.
 
-See Live Demo at [DevGag.com](https://devgag.herokuapp.com/). (Please note that, Since this app is currently hosted on free Heroku Dyno, it takes few more seconds to get up and running and requests are slow.)
+See Live Demo at [DevGag.com](https://devgag.herokuapp.com/).
+(Please note that, Since this app is currently hosted on free Heroku Dyno, it takes few more seconds to get up and running and requests are slow.)
 
 <p align="center">
   <img src="resources/devgag_demo.gif"/>
 </p>
-
-<br/>
-
----
-
-## **App-wise & Technical-wise Features**
-
--   Explore/Add DevJokes in Text and Meme Format
--   Filter DevJokes ByCategories/ByType/Etc...
--   Like/Dislike Posts
--   Login/Signup OR Guest Mode
--   Light/Dark Mode Switching
--   Infinte Scrolling
--   Responsive/Mobile Friendly
--   Settings Persisting
--   Etc...
 
 <br/>
 
@@ -47,6 +32,23 @@ Main technologies and tools used for this project.
 
 <br/>
 <br/>
+
+## **App-wise & Technical-wise Features**
+
+-   Explore/Add DevJokes in Text and Meme Format
+-   Filter DevJokes ByCategories/ByType/Etc...
+-   Like/Dislike Posts
+-   Login/Signup OR Guest Mode
+-   Light/Dark Mode Switching
+-   Infinte Scrolling
+-   Responsive/Mobile Friendly
+-   Settings Persisting
+-   PWA App
+-   Etc...
+
+<br/>
+
+---
 
 ---
 

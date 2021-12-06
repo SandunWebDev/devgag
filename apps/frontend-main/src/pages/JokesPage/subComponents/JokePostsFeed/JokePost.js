@@ -139,7 +139,12 @@ export default function JokePost(props) {
 
                 <Flex align='center'>
                     <Stack mt={6} direction='row' spacing={4} align='center'>
-                        <Avatar name={createdUserName} alt='Author' />
+                        <Avatar
+                            name={createdUserName}
+                            alt='Author'
+                            bg={useColorModeValue('blue.500', 'white')}
+                            color={useColorModeValue('white', 'gray.700')}
+                        />
                         <Stack direction='column' spacing={0} fontSize='sm'>
                             <Text fontWeight={600}>{createdUserName}</Text>
                             <Text color='gray.500'>{createdDate}</Text>
