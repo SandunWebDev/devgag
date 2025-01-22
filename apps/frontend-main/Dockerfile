@@ -38,13 +38,16 @@ FROM dev as build
 # So setting it to "false" for successfull build in CI enviroment.
 ENV CI false
 
+# To fix "exceeded heap" error in low memory vm.
+ENV NODE_OPTIONS="--max-old-space-size=2048"
+
 # Building React Prodcution Files.
 RUN npm run build
 
 # ******************************************* FINAL BUILD STAGE - Production Build *******************************************
 # Loading official Node Alpine image as final image (For Smaller Finalized Image).
 FROM nginx:1.14-alpine as prod
-EXPOSE 3000
+EXPOSE 80
 
 # Copying React build artifacts from previous stage.
 COPY --from=build /app/build /usr/share/nginx/html

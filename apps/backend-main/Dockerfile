@@ -41,7 +41,7 @@ RUN apt-get update \
     build-essential
 
 # Install Poetry (Respects $POETRY_VERSION & $POETRY_HOME)
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
 # Copying "Projects Package List" to cache them. (pyproject.toml)
 WORKDIR $PROJECT_PATH
@@ -180,6 +180,9 @@ RUN poetry install --no-dev
 
 # Applying Migrations to Database
 RUN poetry run task db-migrate-apply
+
+# Applyying Some Initial Seed Data (Remove this if not need any initial data)
+RUN poetry run task db-initial-seeddata-apply 
 
 EXPOSE $PRODUCTION_EXPOSE_PORT
 ENTRYPOINT ./docker/scripts/docker_entrypoint.sh $0 $@

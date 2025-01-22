@@ -174,27 +174,29 @@ wps-light = "^0.15.3"
 dlint = "^0.11.0"
 # flake8-SQL = "^0.4.1" (Removed due to conflicts with some Raw SQL)
 
+# **** Disabled all below dependencies temporally beacuse somones are causing errors in installation/deployment. (Need further investigation)
+
 # Testing
-pytest = "^5.2"
-pytest-watch = "^4.2.0"
-pytest-cov = "^2.12.1"
-coverage = "^5.5"
-WebTest = "^3.0.0"
-factory-boy = "^3.2.0"
-pdbpp = "^0.10.3"
+#pytest = "^5.2"
+#pytest-watch = "^4.2.0"
+#pytest-cov = "^2.12.1"
+#coverage = "^5.5"
+#WebTest = "^3.0.0"
+#factory-boy = "^3.2.0"
+#pdbpp = "^0.10.3"
 
 # Type Checkers
-mypy = "^0.910"             # Static Type Checking
-typeguard = "^2.12.1"       # Runtime Type Checking (Runtime Type Checking with Functions Call)
-pydantic = "^1.8.2"         # Runtime Type Checking (Runtime Data Validations with Errors)
-marshmallow = "^3.13.0"     # Runtime Type Checking (Runtime Data Validation with Schema)
+#mypy = "^0.910"             # Static Type Checking
+#typeguard = "^2.12.1"       # Runtime Type Checking (Runtime Type Checking with Functions Call)
+#pydantic = "^1.8.2"         # Runtime Type Checking (Runtime Data Validations with Errors)
+#marshmallow = "^3.13.0"     # Runtime Type Checking (Runtime Data Validation with Schema)
 
 # Docs
-Sphinx = "^4.2.0"
-sphinx-rtd-theme = "^1.0.0"
-sphinx-autobuild = "^2021.3.14"
-myst-parser = "^0.15.2"
+#Sphinx = "^4.2.0"
+#sphinx-rtd-theme = "^1.0.0"
+#sphinx-autobuild = "^2021.3.14"
+#myst-parser = "^0.15.2"
 
 # Other
-safety = "^1.10.3"
-pre-commit = "^2.15.0"
+#safety = "^1.10.3"
+#pre-commit = "^2.15.0"

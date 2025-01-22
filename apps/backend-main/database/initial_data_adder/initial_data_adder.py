@@ -18,6 +18,9 @@ fake.add_provider(date_time)
 
 app = create_app()
 with app.app_context():
+    print(
+        "\n------------------------------------------------\nStartting Seeding Database with Initial Data\n------------------------------------------------\n"
+    )
 
     # Full initial joke List.
     jokes = text_jokes + meme_jokes
@@ -40,20 +43,20 @@ with app.app_context():
 
         # Random CreatedAt/UpdatedAt Time. So posts will spread out some time frame.
         fake.seed_instance(index * 1000)
-        posted_date = fake.date_time_between(start_date=dt(2021, 10, 15))
+        posted_date = fake.date_time_between(start_date=dt(2023, 10, 15))
         mutated_post["created_at"] = posted_date
         mutated_post["updated_at"] = posted_date
 
         # Copying MemeJoke's images into relevant upload folder.
         if post_type == "MEME":
-            # IMPORTANT NOTE : Until we deploy on a persistent server, We use workaround, which just directly use github uploaded link.
-            mutated_post["meme_joke"] = (
-                direct_link_base_path + post["meme_joke"]
-            )
+            # IMPORTANT NOTE : Until we deploy on a persistent server, We use this workaround, which just directly use github uploaded link.
+            # mutated_post["meme_joke"] = (
+            #     direct_link_base_path + post["meme_joke"]
+            # )
 
             # When on presisting server enable below codes instead of above.
-            # db_meme_joke_image_path = copy_meme_image(post["meme_joke"])
-            # mutated_post["meme_joke"] = db_meme_joke_image_path
+            db_meme_joke_image_path = copy_meme_image(post["meme_joke"])
+            mutated_post["meme_joke"] = db_meme_joke_image_path
 
         created_post = JokePost.create(**mutated_post)
         created_post_id_list.append(created_post.id)
