@@ -181,6 +181,9 @@ RUN poetry install --no-dev
 # Applying Migrations to Database
 RUN poetry run task db-migrate-apply
 
+# Applyying Some Initial Seed Data (Remove this if not need any initial data)
+RUN poetry run task db-initial-seeddata-apply 
+
 EXPOSE $PRODUCTION_EXPOSE_PORT
 ENTRYPOINT ./docker/scripts/docker_entrypoint.sh $0 $@
 CMD ["./docker/scripts/starter-production.sh"]
