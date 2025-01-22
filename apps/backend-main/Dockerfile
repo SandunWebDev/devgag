@@ -169,8 +169,11 @@ COPY --from=development /app/docker /app/docker
 COPY ./src ./src
 COPY ./database ./database
 COPY ./autoapp.py ./autoapp.py
-COPY .env .env
 COPY ./README.md ./README.md
+
+# Copying .env.example as .env. So even if user explicit .env at the build time build process don't fail. (But make sure to pass needed env values later in some another way so program function properly)
+COPY .env.example .env
+COPY .env .env
 
 # Copying Artifacts.
 COPY --from=artifacts-builder /app/src/devgag_api/static /app/src/devgag_api/static
